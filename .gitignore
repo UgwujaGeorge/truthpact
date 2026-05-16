@@ -12,3 +12,4 @@ dist
 out
 public/uploads
 *.tsbuildinfo
+.vercel
