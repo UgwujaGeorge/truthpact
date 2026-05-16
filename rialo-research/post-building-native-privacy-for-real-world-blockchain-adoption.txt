@@ -1,0 +1,118 @@
+# Building Native Privacy for Real-World Blockchain Adoption
+
+      Published on
+      January 29, 2026
+
+      Summary
+
+- 
+
+Over the years, public blockchains have shown that it is possible to build open, verifiable systems that handle valuable transactions at scale. However, despite continuous improvements in performance and scalability, blockchain technology has yet to see massive adoption. The biggest crypto-native ap
+
+Over the years, public blockchains have shown that it is possible to build open, verifiable systems that handle valuable transactions at scale. However, despite continuous improvements in performance and scalability, blockchain technology has yet to see massive adoption. The biggest crypto-native applications have a fraction of the average web2 application’s user base, and many are confined to a narrow set of use cases. 
+
+The problem has less to do with cost and speed and more with the inability of (public) blockchains to handle sensitive information privately and securely. Modern software depends on “secrets” such as personally identifiable information (PII), authentication credentials, API keys, proprietary data, and other information not intended to be accessible to unauthorized individuals or systems. Because blockchains are open and transparent, web3 applications cannot offer the same guarantees and benefits as traditional web2 applications. 
+
+More importantly, the lack of privacy prevents blockchains from securely integrating with web2 infrastructure and supporting applications that interact with the real world. This limits crypto’s utility and is partially responsible for developers' overwhelming focus on building tools and apps for financial speculation. Adding privacy is not optional–it is the key condition for making sure blockchains evolve from purely technological marvels and instruments for speculation into systems that are useful to as many people as possible. 
+
+Rialo is designed to enable privacy, which is why confidential computation is integrated directly into the base layer rather than treated as an afterthought or outsourced to third-party protocols. This design preserves the verifiability of execution while making sure applications don’t leak sensitive data during user interactions. It also makes the blockchain platform compatible with traditional digital infrastructure and lays the foundation for interoperability between web2 and web3 systems by allowing any other blockchain to use Rialo as a service. 
+
+## Why modern security systems are failing
+
+Today’s information systems collect, process, and analyze vast amounts of personal data–every transaction by a user leaves a digital trail that can be exploited by adversarial actors. The situation is worsened by the decision to store large amounts of sensitive data in highly centralized databases that invite attacks and breach attempts. Therefore, it is not surprising that cyber breaches have become commonplace–losses from cybercrime are expected to top $10 trillion in 2025 alone–even as investment in cybersecurity remains negligible ($200 billion in global cybersecurity spending this year).
+
+This problem exists because of the way modern-day digital infrastructures are designed. These IT systems initially prioritized interconnectivity and functionality, and incrementally layered on safety by implementing security patches. The result is a fragile, complex, and costly security infrastructure stack that is difficult to reason about and harder to maintain (which also makes it hard to win the security arms race).
+
+Distributed systems based on battle-tested cryptography provide an alternative approach. For example, the Bitcoin network has proved the viability of building digital systems that are secure-by-construction and secure billions in value while operating over insecure public internet infrastructure. Security is baked into the system and emerges from a combination of hardened cryptographic primitives, decentralization, and game-theoretic incentive alignment–not incremental security patches.
+
+## The privacy limits of public blockchains
+
+Blockchain networks provide evidence that secure, resilient, high-value systems can be run on the public internet without the need for complex security measures such as firewalls and intrusion detection systems. Bitcoin has become a durable digital store of value (“digital gold”), giving individuals and institutions a hedge against financial uncertainty and macroeconomic conditions. DeFi (decentralized finance) systems have expanded access to lending, trading, speculation, and other financial primitives that were previously available only through centralized intermediaries. Stablecoins have evolved into a programmable layer for transferring value and increasingly serve to bridge onchain systems and traditional payments infrastructure.
+
+Despite these successes, wider real-world adoption has been slow. As we have explained, this is because blockchains are public by default and cannot handle confidential inputs. Standard web2 applications often store and process secret data, such as API keys and authentication tokens, and private user information. None of these can be used safely in a fully transparent and open execution environment, making onchain applications less useful and robust compared to traditional applications. 
+
+If blockchain applications tried to process this information offchain to preserve privacy, they would lose the benefits of onchain execution and become slightly worse versions of the web2 apps they hope to replace. This means equipping blockchains with the capacity to process transactions onchain without exposing inputs–that is, confidential computation–is on the critical path to accelerating real-world usage of blockchain applications. With Rialo, we overcome privacy limitations by introducing a privacy-preserving execution layer (let’s call it “Rialo Extended Computation,” or REX) that uses confidential computation over user inputs to securely and efficiently advance the blockchain state. 
+
+## Powering confidential decentralized computation with PETs
+
+Privacy-enhancing technologies (PETs) have emerged as a viable approach to upgrading blockchains to perform confidential computation. Techniques such as Secure Multiparty Computation (MPC), Fully Homomorphic Encryption (FHE), and Trusted Execution Environments (TEEs) enable processing transactions without revealing inputs or intermediate states. These approaches come with different limitations and tradeoffs, but they all offer good options for embedding practical privacy into decentralized execution environments.
+
+At a high level, TEE, MPC, and FHE systems operate under the same general model where data is encrypted with a network-controlled public key and submitted for computation, with steps taken to ensure computation remains confidential (i.e., no input information is leaked) and verifiable (i.e., anyone can verify the execution without accessing the raw submitted data). We briefly discuss the various approaches in the subsequent paragraphs. 
+
+### Multi-party computation (MPC)
+
+In an MPC system, transaction inputs are shared as a secret among network nodes (no node has access to the raw data), and computation is expressed as a logical circuit that nodes jointly evaluate. Each node in the system maintains only a partial view of the data (represented by its secret share), and the final result is reconstructed only when appropriate. MPC works best when the computation is reasonably simple and the circuit is small; otherwise, it requires too many rounds of communication. In some cases, specialized circuits can be used for specific computations–such as distributed key generation and threshold signatures–to speed up computation and reduce communication overhead. 
+
+### Fully homomorphic encryption (FHE)
+
+FHE enables computation directly on encrypted data, so that anyone can evaluate a circuit without needing access to the underlying inputs. To use FHE in a blockchain context, nodes can jointly generate a public-private key pair, with the private key split into shares and distributed among participants. Users encrypt transaction data with the public key (producing a ciphertext) and send it to nodes that run computations locally. Nodes can later run an MPC protocol to collectively decrypt and obtain the result in the clear, or they can keep the ciphertext as input for future computations.  
+
+While FHE provides valuable privacy guarantees, it still incurs a large computational overhead, 
+
+making the use of FHE systems for large-scale, general-purpose computations impossible. However, FHE is today ready for smaller computation and can be used for instance to build private stablecoins or private swaps.
+
+
+
+### Trusted execution environments (TEEs)
+
+TEEs are shielded computing environments that enable private computation over a set of inputs. While they don’t require cryptography for computation (like the previously described approaches), TEEs still require cryptography for security and privacy guarantees. For instance, a TEE can generate its own public-private key pair and let users encrypt transaction inputs using the public key. The inputs are decrypted inside the TEE, which is isolated from the underlying operating system and shielded from unwanted, external access, after which the required logic runs. 
+
+To confirm execution integrity, the TEE can cryptographically attest to the result of the computation–signing the transaction output and generating a proof that the requested program was executed within the original, unmodified hardware enclave. The whole operation is verifiable, which makes a TEE effectively the same as an FHE scheme–the difference is that we require multiple nodes to run TEEs and agree on the results for fault tolerance and but computation is much faster. 
+
+There are other privacy-enhancing technologies used in web3, such as zero-knowledge proofs. However, they are mainly used to prove the correctness of public computation–especially when used in a ZK-VM–and do not address the challenge of executing arbitrary programs over private inputs. They are valuable in different areas but are orthogonal to the problem considered here.
+
+## Rialo’s approach to private blockchain execution
+
+Any of the three approaches described in the previous section can serve as the basis of a private computation core that complements the blockchain’s public execution layer. We can hypothesize an implementation of this private computation layer, which we call Rialo Extended Execution (REX) for now, and imagine how it might work. This way, we can derive the requirements for a confidential computation platform from first principles. 
+
+To function securely, such a system needs many things. Nodes and the computational resources they provide need to be managed; programs to be executed need to be verified and approved for specific execution runs; and encrypted inputs need to be routed cryptographically to a computation core where the appropriate program logic is loaded and executed. The orchestration layer also needs to ensure that inputs are never decrypted outside approved execution contexts and remain protected throughout the transaction lifecycle (a security requirement that requires a combination of clever cryptography, key management, and robust re-encryption schemes). 
+
+Also important is ensuring the correctness and availability of the results after execution. The REX needs to verify cryptographic attestations that prove a specific computation was correctly executed and route the result to its destination (or store it for use as an input in a future computation). Throughout this process, Rialo’s orchestration layer ensures that computation is performed only after explicit authorization from the application and the user (who owns the data), enabling us to support use cases involving sensitive data (e.g., authenticated interactions with web2 databases). 
+
+Rialo implements the aforementioned architecture as a privacy-preserving blockchain network and represents a significant improvement on initial iterations of public blockchain infrastructure that lacked the capacity for confidential computation.
+
+## Building practical privacy for real-world applications 
+
+Native privacy on Rialo expands the design space available to developers by allowing sensitive data and critical logic to remain confidential while computations and their results remain verifiable. This feature makes it possible to build applications that interact with real-world systems and must securely handle private inputs, satisfy legal compliance requirements, and safeguard the integrity of onchain execution. These are applications and use cases that would have been difficult (if not outright impossible) to support on traditional, transparent-by-default blockchains. We discuss some of these use cases. 
+
+### Authenticated interaction with external services
+
+Workflows that touch the real world require authenticated access to external systems where information (needed for computation) is located. Rialo’s privacy-focused architecture enables applications to securely store and use authentication credentials, such as API keys, to retrieve data from real-world systems without ever exposing the credentials or leaking the retrieved data. 
+
+For example, a company might reward users onchain for completing certain real-world actions as part of a user acquisition and retention strategy. Suppose it’s an Instagram challenge; the company can store campaign participation data in a private database and provide an API key that nodes use to access and extract the data for processing inside the Rialo Extended Computation environment. The data can be evaluated confidentially and used to inform the logic that distributes rewards onchain–payouts remain public, but the underlying data (e.g., each user’s points), authentication credentials, and the execution traces all remain private. 
+
+### Private financial markets 
+
+DeFi, in its current form, is beneficial for its emphasis on decentralization and verifiable execution, but it is incompatible with the needs of privacy-sensitive institutions and sophisticated traders. A trader interacting with a DEX, for example, needs to provide order details and trading intent in clear text. This unpalatable situation allows anyone to frontrun or copy their trade before it is executed. 
+
+A private computation layer allows users to encrypt sensitive order information and route transactions to a protected execution environment for execution and eventual settlement. In this scenario, the execution itself is hidden from the rest of the network, with only the results reflected onchain. Note that nodes must verify execution, meaning that confidential computation cannot result in losses from compromised computation. 
+
+### Policy enforcement and eligibility checks
+
+A real-world blockchain application can enforce rules based on personally identifiable information (PII) associated with a user. With privacy-preserving computation, these checks can be run confidentially within a secure execution environment without exposing sensitive PII. For example, an application can gate access by country of origin and verify a user’s nationality before approving their request to interact with the application. 
+
+Because Rialo can handle private inputs, users can safely provide information to verify their nationality. This particularly enables compliance-friendly workflows, especially when applications operate in countries that require fine-grained control over who can access certain services.
+
+## Privacy as supermodularity
+
+In traditional blockchain protocols, privacy is often framed as a functionality better provided by external middleware rather than the base layer. This reflects an industry-wide trend in which protocol designers orient blockchains around the “core” services of consensus, execution, and data availability while outsourcing almost everything else to third-party services. 
+
+However, when privacy is outsourced, we introduce new trust assumptions, since external layers lack the same level of decentralization and safety guarantees as the underlying blockchain. This practice also increases costs (for developers and users) and worsens operational complexity across the board. At Rialo, we describe the economic and technical effects of excessive modularization as “compound marginalization”. 
+
+Rialo takes a different approach by providing privacy as a protocol-native feature. Doing this strengthens our goal of maximizing supermodularity, in which the collective value of the system improves as we integrate valuable, complementary functions and components into a single protocol. In this case, the value of Rialo’s execution layer and other components, such as oracles, increases because privacy is built into the blockchain. 
+
+As we explained in the use case section, native privacy expands what kinds of operations can be securely run onchain. Applications that handle sensitive information, such as credentials and personally identifiable data, can execute with strong guarantees regarding the privacy of transaction inputs. This reduces the risk of interacting with onchain systems for certain classes of users that require privacy of information. Onchain execution becomes verifiable and confidential, making it a comparable–or even superior–alternative to opaque offchain systems. 
+
+Privacy also combines well with other native primitives on Rialo. For instance, data retrieved via native web calls can be consumed in an encrypted form, which allows applications to operate on real-world information securely. A lending platform might check a prospective borrower’s credit score when issuing a loan without publishing the credit score onchain, for example. 
+
+Integrating privacy into the core protocol preempts the economic and operational efficiencies that appear when useful functionalities are needlessly outsourced. This way, Rialo enforces supermodularity across the stack and turns onchain applications into dynamic systems that integrate seamlessly into real-world infrastructure instead of existing in isolation. We make blockchains more valuable to both developers and users by providing a combination that rarely exists elsewhere (native execution + native privacy). 
+
+## Conclusion
+
+Decentralized systems are counterexamples that illustrate the possibility of building highly secure internet-native infrastructure. However, without privacy, these systems will remain confined to a limited set of use cases and cannot scale to handle the needs of millions of users. As long as blockchains remain public by default and expose all data, they cannot safely integrate with existing digital infrastructure or support the types of applications used by enterprises, institutions, and everyday users. 
+
+Privacy-enhancing technologies enable confidential computation, but require careful orchestration to operate securely and efficiently. More importantly, privacy-enhancing technologies must be implemented in a way that doesn’t turn them into another external dependency that fragments the stack, reintroduces trust assumptions, and reduces economic efficiency. 
+
+Rialo addresses the problem by designing privacy into the base layer. Specifically, we use a private computation core that runs alongside the public execution environment–a design pattern that balances confidentiality of inputs with verifiability of state transitions. Applications are equipped to handle all types of sensitive information (user information, API tokens, etc.) and can communicate securely with web2 infrastructure when needed. Furthermore, making privacy native to the chain unlocks the benefits of supermodularity and eliminates compound marginalization for developers and users. 
+
+We care about privacy because it is the one thing that can transform blockchains from isolated systems into real-world infrastructure. By treating privacy as a first-class concern and bundling it with execution, Rialo provides a path for web3 to compose with the internet and support meaningful onchain activity outside what we have now. In the future, we will share more concrete details on the design of Rialo’s privacy system and show why it represents a significant improvement on existing systems.

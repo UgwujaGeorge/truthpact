@@ -1,0 +1,70 @@
+# Making the Agent Economy Simple and Safe with Rialo
+
+      Published on
+      December 19, 2025
+
+      Summary
+
+- 
+
+At Subzero Labs, we believe that the AI systems that will have the greatest impact on humanity will be decentralized. Just as software has eaten the world, artificial intelligence will find its place in every aspect of our economy.
+
+[by Tobi](https://x.com/mocutobi/)
+
+At Subzero Labs, we believe that the AI systems that will have the greatest impact on humanity will be decentralized. Just as software has eaten the world, artificial intelligence will find its place in every aspect of our economy. And just as today’s economy is made up of a multitude of specialized firms and markets, the AI agent economy won’t be owned by one centralized vendor or gatekeeper. It will be made up of a multitude of specialized agents, that can contribute to real societal value that’s greater than the sum of their individual parts.
+
+We’re building Rialo to be the blockchain for the real world, and the best blockchain for the agent economy.
+
+
+“Rialo and AI agents are a natural fit.”
+
+
+
+Rialo has native webcalls, so Rialo can communicate with AI agents in their native language, and via protocols like Google’s Agent2Agent (A2A). Rialo has native timers, which can trigger on-chain behavior automatically to enforce contract deadlines and multi-agent coordination. And Rialo is blazing fast, so webcalls, automations, and payments resolve at the speed of AI.
+
+Using these core strengths of Rialo, Subzero Labs is demonstrating a new set of standard programs that make it easy and safe to pay AI Agents to do tasks via Rialo.
+
+
+
+### Introducing SCALE: Simple Contracts for Agent Labor Execution
+
+
+
+
+
+SCALE, inspired by the YC SAFE Note, introduces simple terms to contract work from agents. Oftentimes, even human contractors will deliver work late and below your quality bar. The same risks are present when paying agents to do tasks. SCALE leverages Rialo’s native mechanisms to eliminate these risks, using on-chain logic to enforce your terms around task deadlines and quality assurance. We’re doing a demo on Twitter so you can see it in action.
+
+## The Demo
+
+We’ve built a Twitter agent called @chunliweb3, that can generate images for you on Twitter using SCALE. When you mention @chunliweb3 on Twitter, she outsources generating an image for your prompt to an AI Agent via SCALE. The SCALE program then performs quality assurance on the image via a third party Judge agent.
+
+
+
+
+
+Let’s dive into the details!
+
+When you prompt @chunliweb3, she finds an agent on the Rialo Agent Registry that can generate images. Then @chunliweb3 mints a SCALE task on Rialo with the following terms:
+
+- The prompt that describes the work @chunliweb3 wants done, i.e., image generation
+- The RLO amount @chunliweb3 is offering to pay the Image Generating Agent
+- The deadline; when @chunliweb3 expects the task to be complete
+- The third party judge agent that will evaluate the Image Generating Agent’s work for quality and task adherence
+
+When the SCALE task is minted, the payment amount is automatically escrowed on chain. @chunliweb3 then sends the SCALE task address to the Image Generating Agent via A2A protocol.
+
+When the Image Generating Agent receives the A2A message, it verifies the SCALE task address onchain, and then gets to work. Once the image is complete, the Image Generating Agent delivers its work by sending a transaction to the SCALE task address with the image URL. Note: If the Image Generating Agent does not submit its work the by deadline mentioned above, Rialo, via native timers, automatically refunds @chunliweb3 from the escrow.
+
+When the work is delivered on-chain, the SCALE program leverages Rialo’s native webcalls to send a A2A message to the third party judge agent, whose job is to check whether the work delivered on-chain meets its quality bar and adheres to the on-chain prompt instructions. If the judge delivers a pass verdict, the Image Generating Agent is paid the RLO amount. If the judge delivers a failure verdict, @chunliweb3 is refunded immediately.
+
+Once the judge delivers its verdict on-chain, @chunliweb3 posts the image on Twitter.
+
+## This is Just the Beginning
+
+We at Subzero Labs believe that the future of web3 is AI-native. Imagine a world where you make a passive, web3 income in off your Judge Agent’s work. Imagine building custom AI-workflows, not via tedious prompt engineering, but by tying together multiple independent agents via on-chain workflows. Imagine a world where participating in web3 is as easy as sending a prompt.
+
+Rialo enables all of this and more, SCALE is just that first step.
+
+In the coming months, we’ll release a blog post showing just how easy it is to get started with SCALE on Rialo. We’ll also be discussing more cool use cases for Rialo+AI in DeFi and more. Stay tuned, and in the meantime, play with @chunliweb3 on Twitter and let us know what you think.
+
+And if you want to build the future of Rialo+AI, please reach out. We want to work with you :)

@@ -1,0 +1,38 @@
+{
+  "name": "truthpact",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "hardhat test",
+    "compile": "hardhat compile",
+    "deploy:base-sepolia": "hardhat run scripts/deploy.js --network baseSepolia"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "dotenv": "^16.6.1",
+    "ethers": "^6.15.0",
+    "lucide-react": "^0.511.0",
+    "next": "^16.2.6",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/node": "^25.6.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.6",
+    "hardhat": "^2.24.2",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

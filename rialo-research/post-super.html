@@ -1,0 +1,499 @@
+<!DOCTYPE html><!--  Last Published: Wed Apr 22 2026 18:17:36 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6883572e6ebf68cfe676dd63" data-wf-site="6883572e6ebf68cfe676dd65" lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Performance: Preconnect to external origins -->
+  <link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.amplitude.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://d3e54v103j8qbb.cloudfront.net">
+
+  <title>Rialo Foundations II: Supermodularity and Blockchain Integration | Rialo</title>
+  <meta content="“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily conc" name="description">
+  <meta content="Rialo Foundations II: Supermodularity and Blockchain Integration" property="og:title">
+  <meta content="“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily conc" property="og:description">
+  <meta content="" property="og:image">
+  <meta content="Rialo Foundations II: Supermodularity and Blockchain Integration" property="twitter:title">
+  <meta content="“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily conc" property="twitter:description">
+  <meta content="" property="twitter:image">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/components.css" rel="stylesheet" type="text/css">
+  <link href="/css/rialo-new.css" rel="stylesheet" type="text/css">
+  <style>html.w-mod-js:not(.w-mod-ix3) :is(.h1) {visibility: hidden !important;}</style>
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/images/webclip.png" rel="apple-touch-icon">
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4BYH21VM69"></script>
+  <script type="text/javascript">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('set', 'developer_id.dZGVlNj', true);gtag('js', new Date());gtag('config', 'G-4BYH21VM69');</script><!--  Finsweet Attributes  -->
+  <script async="" type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-formsubmit=""></script>
+  <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.1-min.js.gz" defer></script>
+  <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.8.0-min.js.gz" defer></script>
+  <script>window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init('a972cd17c06d38df15393437e04eae5d', {"autocapture":{"elementInteractions":true}});</script>
+  <style>
+  [short] {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+  <style>
+  body {
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+}
+  /* Removes top/bottom/left/right margins from lists inside .text-blog */
+  .text-blog ul, 
+  .text-blog ol {
+    margin-bottom: 5px !important;
+    padding-left: 1.25rem; /* Ensures bullets/numbers don't clip off the screen */
+  }
+  /* Optional: Removes margins from the list items themselves for a tight look */
+  .text-blog li {
+    margin-bottom: 5px !important;
+  }
+  .text-blog h2 {
+  	margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  .content-link.active {
+     font-weight: bold
+  }
+</style>
+</head>
+<body class="body-blog-post">
+  <nav data-wf--nav--variant="no-badge" class="nav w-variant-4fe900d6-da43-706c-7dd7-ecf391bd5581">
+    <div aria-label="Home" class="logo">
+      <a href="/" class="logo w-inline-block"><img src="/images/rialo-logo.svg" loading="lazy" alt="Rialo Logo" class="logo-img"></a>
+      <a href="https://drive.google.com/uc?export=download&amp;id=1W-bNLBzhap3oa3CcVGHPrlK5ZlBhsyx7" class="download-assets w-inline-block">
+        <div class="download-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download-icon lucide-download">
+            <path d="M12 15V3"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+          </svg></div>
+        <div>Download Brand Assets</div>
+      </a>
+    </div>
+    <div class="main-nav w-variant-4fe900d6-da43-706c-7dd7-ecf391bd5581">
+      <a data-w-id="eab7c10d-e574-2589-3a26-c8144f91ca34" href="/" class="nav-link">HOME</a>
+      <a data-w-id="a94bba3e-5a93-c1c7-f7aa-14ecf0fd0ac5" href="/docs" class="nav-link">Docs</a>
+      <a href="/blog" data-w-id="d97bea76-ecc5-6ff6-f4d2-46f5be9760d3" class="nav-link">Blog</a>
+      <a href="http://learn.rialo.io" data-w-id="a252d1e6-69ca-7098-33aa-b54864718519" class="nav-link">Learn</a>
+      <a data-w-id="74fccc3a-9138-8c96-76e2-388f500177ee" href="/news" class="nav-link">News</a>
+    </div>
+    <div class="social-media-logos">
+      <a aria-label="Telegram Link" href="https://discord.gg/RialoProtocol" target="_blank" class="sm-link w-inline-block"><img src="/images/discord.svg" loading="lazy" width="24" alt=""></a>
+      <a aria-label="Telegram Link" href="https://t.me/rialoprotocol" target="_blank" class="sm-link w-inline-block"><img src="/images/telegram-logo.svg" loading="lazy" width="20" alt=""></a>
+      <a aria-label="X Link" href="https://x.com/RialoHQ" target="_blank" class="sm-link w-inline-block"><img src="/images/x-logo.svg" loading="lazy" width="18" alt=""></a>
+      <div data-w-id="eab7c10d-e574-2589-3a26-c8144f91ca41" data-is-ix2-target="1" class="mobile-nav-trigger" data-animation-type="lottie" data-src="/documents/rialo-menu.lottie" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="2" data-duration="0" data-ix2-initial-state="0"></div>
+    </div>
+  </nav>
+  <div class="waitlist-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="h3">Early Access</h2><img src="/images/close.svg" loading="lazy" data-w-id="64aa072e-0daa-205c-e15a-91a921fed9d1" alt="Close" class="close">
+      </div>
+      <div class="form-wrapper w-form">
+        <form method="post" fs-formsubmit-element="form" name="email-form" data-name="Email Form" action="https://assets.mailerlite.com/jsonp/1684260/forms/161153940968178828/subscribe" id="email-form" fs-formsubmit-enhance="true" class="form" data-wf-page-id="6883572e6ebf68cfe676dd63" data-wf-element-id="64aa072e-0daa-205c-e15a-91a921fed9d3">
+          <p>Get exclusive early access to Rialo and stay updated on our latest developments.<br></p>
+          <div><label for="fields[name]" class="label">Name</label><input class="input w-input" maxlength="256" name="fields[name]" data-name="fields[name]" placeholder="Enter your full name" type="text" id="fields[name]" required=""></div>
+          <div><label for="fields[email]" class="label">Email Address</label><input class="input w-input" maxlength="256" name="fields[email]" data-name="fields[email]" placeholder="Enter your email" type="email" id="fields[email]" required=""></div><input type="submit" data-wait="Please wait..." class="submit-button w-button" value=" join waitlist">
+        </form>
+        <div class="success w-form-done">
+          <div class="text-block">Your spot on the waitlist is confirmed. We&#x27;ll keep you posted with next steps and early access updates soon.</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+    <div data-w-id="64aa072e-0daa-205c-e15a-91a921fed9e6" class="modal-bg"></div>
+  </div>
+  <figure data-wf--nav-background--variant="no-badge" class="main-nav-overlay w-variant-04f3bbb7-1d6e-8249-c6ab-51437e2924c8"></figure>
+  <div class="blog-deco-wrapper"><img src="/images/Vector-20.svg" loading="lazy" alt="" class="blog-deco"></div>
+  <div style="-webkit-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="content-overview"></div>
+  <main class="update-content">
+    <h1 class="h1 fh">Rialo Foundations II: Supermodularity and Blockchain Integration</h1>
+    <div class="date">
+      <div>Published on</div>
+      <div>April 22, 2026</div>
+    </div>
+    
+    <div data-w-id="60293aea-98cd-9d0a-54b0-6fe0bc1398ac" style="color:rgb(0,0,0);background-color:rgba(0,0,0,0)" class="summary-button">
+      <div>Summary</div>
+      <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0)" class="dd-arrow w-embed"><svg width="100%" height="100%" viewbox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.759766 0.650879L6.75977 7.65088L12.7598 0.650879" stroke="currentColor" stroke-width="2"></path>
+        </svg></div>
+    </div>
+    <!-- Audio Narration Player (injected by external script) -->
+    <link rel="stylesheet" href="https://eawosika.github.io/audio-narration/player.css">
+    <script src="https://eawosika.github.io/audio-narration/player.js"></script>
+    <div style="height:0px" class="summary-wrapper">
+      <div class="summary">
+        <p class="summary-text">“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily concerned with basic properties, such as throughput, speed, and simple composability. Then, the decision to decouple the blockchain stack into s</p>
+      </div>
+    </div>
+    <div class="blog-content-section"><p>“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily concerned with basic properties, such as throughput, speed, and simple composability. Then, the decision to decouple the blockchain stack into separate layers or tightly integrate everything into a single execution environment was considered the biggest determinant of performance and utility.</p><p>However, these properties have been partially commoditized in recent years due to significant improvements in scaling techniques, execution environment design, and interoperability infrastructure. Chains can no longer treat being fast, cheap, or even interoperable as a unique selling point. At the same time, “modular vs. monolithic” is less useful now that the features that motivated the framing (and associated design decisions) are widely accessible and no longer serve as a differentiating factor.</p><p>A key problem with the old monolithic-modular framing is that it mostly ignores the economics and mechanics of integration. Specifically, it says little about a system’s compositional power–the advantages gained from selectively integrating components–and doesn’t explain why some integrations increase economic value, efficiency, and utility, even as others add operational complexity and extra coordination overhead. When protocol designers approach integration as a purely ideological or architectural concern, they make wrong choices: either overintegrating components that should be separate or underintegrating components that produce more output when combined. </p><p>At Rialo, we treat integration as an economic decision and adopt a systematic, quantitative framework that decides which components are integrated into the protocol and which remain external. We call this philosophy <em>supermodularity</em>. This new philosophical framework moves crypto away from the old and restrictive binary of modular vs. monolithic–the question is no longer whether a system should be modular or monolithic, but whether it is supermodular and to what extent. </p><p>In this article, we explain the origins and economic underpinnings of supermodularity and show why it offers a better approach to evaluating different blockchain architectures. We also present examples of supermodularity in real-world systems and illustrate how it shows up in various blockchain contexts. Most importantly, we reveal how supermodularity informs Rialo’s designs and what developers and users can expect from using a supermodular chain like Rialo. </p><h2>What is supermodularity? &nbsp;</h2><p>Supermodularity describes the compositional power a system gains by integrating components that complement each other in production and create new system-level capabilities when composed together. In a supermodular system, integration follows a very deliberate pattern: components are integrated only if integration makes the system more capable and powerful. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697260bcdcf143839e3fb61e_1.avif" loading="lazy"></div></figure><p>A supermodular system is often greater than the sum of its parts; think of it as adding 1 + 1 and getting 3. The additional value comes from the integration of supermodular components, which unlocks emergent properties (that would not exist without integration), not from the individual components. This effect is well-studied, and we will use a real-world example (GPS and phones) to illustrate how supermodularity works. </p><p>Initially, GPS, payment systems, and phones existed independently until smartphones came and combined all three functions into a single system. This integration unlocked novel functionality and led to the creation of new industries: ride-hailing (Uber), real-time logistics (DoorDash), e-commerce (Amazon), and many more. These features could not have possibly existed back when GPS, payment infrastructure, and phones were separate components. That’s the power of supermodularity. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697260ca8dcb660db4b18e04_2.avif" loading="lazy"></div></figure><p>We can observe similar dynamics in blockchain environments when strategically complementary components (components that reinforce each other in production) are integrated. When integration follows this pattern, blockchains unlock emergent properties that make onchain execution more useful, valuable, and efficient. Hyperliquid is a great example: they started as a trading app and then migrated to a chain that integrated price feeds and risk-management primitives with execution. Combining the functions of pricing, execution, and liquidation into a unified system gave Hyperliquid an edge over other blockchains–it created a native trading engine that executed trades at CEX-like speeds while retaining the benefits of onchain execution (transparency and fault tolerance). </p><p>Unlike the old “modular vs. monolithic” framing, supermodularity does not describe how many layers a blockchain has or the level of coupling between them. It instead focuses on a blockchain’s compositional power, quantifying the economic value the system derives from integrating different components and evolving additional capabilities. Different blockchains exist on different points on this spectrum–they integrate various components, and those integrations produce varying capabilities and value. A blockchain can be “integrated” and have low compositional power because the components don’t reinforce each other in production. </p><p>This is why the “modular vs. monolithic” framing is increasingly misleading and unhelpful. It treats integration as a purely architectural choice rather than an economic decision, and doesn’t ask whether it is economically justified. A blockchain system will struggle if integration is implemented without an economic theory of composition, not because it is “too modular” or “too monolithic”. Often, the lack of a guiding principle guiding integration means blockchains either overintegrate functions that fail to compound value or underintegrate functions that are supermodular and increase compositional power. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697261565fec457ddee386ea_3.avif" loading="lazy"></div></figure><p>Supermodularity does away with the old framing and provides a more straightforward, more rational objective to guide integration when designing blockchains. The aim is to integrate as many functions that reinforce each other, and create emergent capabilities through integration, and externalize everything else. All of this is done to find points of integration that maximize chain utility, system welfare, net economic value, and efficiency–properties that determine a chain’s adoption in a world where everything else (performance, scale, and basic composability) is a commodity. </p><p>In the next section, we’ll discuss the basics of the economic theory that underpins supermodularity and explain in more detail the criteria for choosing which components to integrate. We’ll also show more examples to illustrate further the various ways supermodular designs create additional value for the systems that adopt them.</p><h2>An economic framework for choosing what to integrate &nbsp;</h2><p>A system is supermodular if its components reinforce each other in production. That is, increasing one component should raise the value of increasing another component. We can show how this works using the cross-partial derivative:</p><figure class="w-richtext-align-center w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6950646c1c94deb52f694c30_5475c6f1.png" loading="lazy"></div></figure><p>If the cross partial is positive, it means the inputs (x and y) are complementary in production. Increasing x makes increasing y more valuable, and vice versa. If it is zero or negative, the inputs are independent or substitutable (they do not reinforce each other in production), and integration does not create additional value.</p><p>‍</p><p>Supermodularity is also expressed in lattice theory as:</p><figure class="w-richtext-align-center w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6950646c1c94deb52f694c33_deecfaf4.png" loading="lazy"></div></figure><p>Here, we have a similar intuition to the original equation: the output of moving two variables (x and y) together is higher than that of moving them separately. When two components mutually reinforce each other, we describe this as “strategic complementarity” and say they are <em>strategically complementary</em>.</p><p>These two mathematical concepts point to distinct yet related requirements for supermodular designs. The first is complementarity in production: two components are supermodular when they reinforce each other in production. Increasing component A should raise the marginal value of increasing component B, and increasing component B should raise the marginal value of increasing component A. Put differently, improving one component should increase the return on improving another component in the system. &nbsp;</p><p>The second is that integration must create surplus value: the output from increasing both components together should be higher than the output from increasing each component in isolation. If a system creates more value when components exist independently than when they are integrated and jointly improved, integration will create negative or zero value. Integration must produce more than just convenience–the system should be meaningfully more performant and efficient when it integrates components. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69726165e5606c025a9c5640_4.avif" loading="lazy"></div></figure><p>Let’s illustrate this with the example of an electric car company that integrates two functions: battery production and vehicle manufacturing. Batteries and cars are complementary in production. Scaling battery production makes investments in scaling vehicle production productive, since batteries are a critical input, and a reliable, affordable battery supply makes EV production less risky and costly. Scaling vehicle production, in turn, increases the value of improving battery manufacturing by creating demand and increasing the return on battery-specific improvements. </p><p>Co-producing batteries and electric vehicles also creates new capabilities for a manufacturer. Battery designs can be tailored to specific cars and vice versa, which can increase both battery performance and vehicle lifespan. Unit production costs can be reduced, and overall product quality improved, now that a single manufacturer controls the end-to-end process. None of this would have been possible if battery production and vehicle manufacturing were handled and optimized by two separate companies. </p><p>Integration in blockchain environments follows a similar dynamic. Components that are complementary in production and unlock more value and output when coupled are integrated. Components that fail to reinforce each other in production and produce more value in isolation are not integrated. Components in the first category and second category are called “supermodulars” and “complements”, respectively. This yields a simple heuristic for designing supermodular systems: integrate the supermodulars and commoditize the complements. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972617419803bae8a3905b3_5.avif" loading="lazy"></div></figure><p>Supermodularity allows us to reason about integration from an economic perspective: we integrate components that reinforce each other in production and commodify everything else. Components that pass the supermodularity test are integrated into the base layer (and composed with execution); components that fail are treated as commodities, meaning they are acquired at competitive prices from external providers.</p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69726330de1bffc5fc22fbc6_6.avif" loading="lazy"></div></figure><p>The previous example (Hyperliquid) revealed blockchain execution and price feeds (oracles) as supermodular components. A native price feed makes blockchain execution more valuable by enabling complex execution logic–particularly for financial applications–that depends on reliable, timely access to real-time prices, such as conditional orders, liquidations, margin checks, and circuit breakers. Blockchain execution also makes investing in native price feeds valuable because it creates sustained demand for high-quality pricing data and raises the value of investing in better oracle designs. </p><p>When a blockchain combines execution and price feeds (like Hyperliquid does), the result is a fresh onchain trading experience that combines the responsiveness and speed of centralized platforms with the accessibility and verifiability of public blockchains. This improved system not only performs better and has fewer external dependencies, but also lowers the cost of building applications (e.g., real-time DeFi lending) and supports a wider range of use cases. We wouldn’t see these properties if the functions of execution and provision of pricing data were decoupled. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972635bfd1bee447105062b_7.avif" loading="lazy"></div></figure><p>Contrast this with the example of a different component: fiat onramps. Fiat onramps do not complement blockchain execution in production. A better fiat onramp doesn’t make blockchain execution more performant or valuable, nor does improved execution meaningfully impact the design or performance of a fiat onramp. Additionally, a blockchain that integrates fiat onramping won’t see any new capabilities emerge–a new user might find it easier to onboard, but that’s about it. </p><p>Fiat onramping is an example of a component that complements blockchain execution in consumption but not in production. Integrating fiat onramping with execution makes it easier to acquire assets and use the chain, but the integration will not create new value or yield more utility. Fiat onramping is thus better treated as a commodity output sourced at competitive prices from external providers rather than bundled with execution on a blockchain. </p><h3>How supermodularity works on Rialo </h3><p>Rialo’s design is built around a core idea: integrate functions that meaningfully reinforce each other and make the system meaningfully more powerful and functionally richer. Rialo integrates several primitives into the base layer and offers them as protocol-native services. But the point is less what those features do in isolation and more what they enable when composed together in the system. </p><p>The capabilities described below emerge from the interaction between the components Rialo integrates and are not the result of implementing a single feature. We also show how these emergent capabilities expand the design space for onchain applications and support the creation of novel use cases. That way, the value of supermodularity in crypto-native contexts feels more practical and less abstract. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697261cbb3fac527791cb3a7_8.avif" loading="lazy"></div></figure><h3>Automated and recurring operations </h3><p>On Rialo, users can create automated transactions that execute at a specific time in the future based on conditions defined and stored in the chain’s state as <em>predicates</em>. This feature introduces a new type of transaction, a <em>reactive transaction</em>, that can respond to events–including events happening onchain (e.g., emitted smart contract events and changes in block height) or events happening offchain (e.g., changes in market price of a particular asset or completion of a real-world payment). Reactive transactions are executed automatically by Rialo whenever the predefined conditions are met–no need for bots, keepers, or external schedulers to trigger execution. </p><p>Combining reactive transactions with Stake-for-Service’s onchain gas funding mechanism enables Rialo to support recurring automated transactions that require minimal upkeep. Traditionally, running a scheduled operation on an ongoing basis requires the account executing the transaction always to have a balance sufficient to cover the execution cost. If the account runs out of funds to cover gas fees, execution can fail, interrupting the scheduled operation. This adds significant overhead to running recurring automated transactions, as users must monitor the account to prevent the balance from falling below the acceptable threshold. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697261ede280c8a7cf1f12b8_9.avif" loading="lazy"></div></figure><p>With <a href="https://www.rialo.io/posts/stake-for-service">Stake-for-Service</a>, users can create a staking position and convert staking rewards into credits that help cover the cost of executing transactions. Creating a staking position for an account executing scheduled operations effectively establishes a funding source to cover the account’s gas fees indefinitely. Picture automated transactions that run forever without users worrying about low balances causing failed execution–this is possible on Rialo because of capabilities that emerge from the combination of native automation (reactive transactions) and native gas abstraction (Stake-for-Service). </p><p>But there’s more: these automated workflows can be put to more advanced uses by combining native automation (funded by SFS rewards) with other components that Rialo integrates, especially native oracles and native web calls. Automated transactions become more expressive and useful when they have access to verified external data and can interact with real-world systems to trigger events in reality. </p><p>This functionality can enable use cases like:</p><ul role="list"><li><strong>Simple time-based workflows</strong>: Recurring DCA trades, gradual vesting unlocks, and protocol maintenance operations </li><li><strong>Subscriptions and recurring payments</strong></li><li><strong>Cross-protocol orchestration</strong> (“If one protocol does X, tell another protocol to do Y) </li><li><strong>Closed financial protocols</strong> that run in self-contained loops and autonomously adjust to onchain and offchain conditions </li></ul><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697261fa4c09997d38606f39_10.avif" loading="lazy"></div></figure><p>The last item is particularly interesting. To run a financial protocol onchain today, you need a patchwork of oracle nodes, bots, keepers, and protocol maintenance teams to keep the protocol running smoothly. But with native automation that can access verified external data (via native oracles and web calls), while running sustainably over time with reliable sources of funding available (Stake-for-Service), it is possible to create an autonomous financial protocol that mostly maintains itself and doesn't need a sprawling network of providers and human teams to operate properly. </p><p>For example: a lending market that continuously monitors both market conditions, protocol activity, and onchain events and dynamically adjusts risk parameters to maintain desired invariants. It can pull attested price data from the native oracle at defined intervals, monitor at-risk loan positions, dynamically update fees and collateral requirements to control lending and borrowing volumes, and even trigger circuit breaker logic under certain conditions. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972620f1ea00a661a6c0b67_11.avif" loading="lazy"></div></figure><p>All of this can feasibly happen without external involvement and shows the power of a supermodular blockchain that integrates complementary functions that unlock extra functionality and compound value. Next, we’ll show another emergent capability that arises from selectively integrating valuable primitives in interesting ways. </p><h3>Trust-minimized hybrid workflows </h3><p>A “real-world blockchain” makes it easy for onchain applications to interact with real-world data and infrastructure. This functionality makes blockchain execution more useful and functionally richer–crypto-native applications are currently limited by their inability to access anything outside the blockchain. Rialo supports hybrid execution that combines onchain and offchain components through a combination of native web calls, confidential computation, and data attestation. </p><p>Hybrid workflows can come in two forms:</p><h4>Read workflows (world → chain): verified external inputs </h4><p>Hybrid applications can retrieve real-world information and use it as an input to execution that drives onchain state. When the outcomes driven by real-world data are valuable (e.g., a prediction market settling a bet), applications need strong guarantees that the data is accurate and properly sourced. Rialo’s oracle attestation infrastructure provides applications with this guarantee and can further attest to the integrity of any computation performed on top of that data.</p><p>This example also reveals a key insight about integrating supermodulars and commoditizing complements. The data itself (e.g., weather information) is often a commodity, and the costs of integrating data provision outweigh the benefits. But attesting to the provenance of data and performing confidential and verifiable computation using attested data are supermodular functions. So, Rialo integrates attestation and verifiable computation and sources real-world data from external providers (e.g., getting weather data from <a href="http://weather.com/">Weather.com</a>). </p><p>To illustrate the value of this integration, consider a prediction market that needs to resolve a weather forecast market securely. The protocol submits a list of sources to pull data from and instructs Rialo to compute the average of reported figures and use the result to settle the market. Rialo completes this flow and generates a proof that verifies the source of the information, confirms the integrity of the execution that produced the result, and determines final payouts. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69726225f71660bc7d1598b7_12.avif" loading="lazy"></div></figure><h4>Case study: Project 1337 </h4><p>Composing Rialo’s fast execution with trust-minimized data access and confidential, verifiable computation creates a real-time data pipeline that supports financial applications that need verified external data delivered at sub-second latency (often in formats tailored to individual apps). The <a href="https://www.rialo.io/posts/project-1337">Project 1337 demo</a> proved the utility of building a real-time financial data pipeline like this. </p><p>Over the course of days, we streamed real-time price information related to 1337 stocks in total (including popular stocks like AAPL and TSLA) onchain and visualized it on a public dashboard. Not only did we provide a native price feed (with millisecond-level updates), but we also offered useful, contextual market signals for each stock, such as current buy/sell pressure and short-term price momentum. We did this without using an external oracle and generated cryptographic proof that both prices and market signals resulted from correct execution. </p><p>The demo required ingesting live trading data from <a href="http://massive.io/">Massive.io</a> via an API call and running additional pre-processing (e.g., filtering noise, quantifying market sentiment, and calculating momentum of price changes) on ingested data. The execution happened inside a shielded computing environment, which achieved two objectives: </p><ul role="list"><li><strong>Confidentiality</strong>: Scraping live data and republishing in raw form is barred under the Terms of Service. We instead took the live data and preprocessed it to extract valuable signals (e.g., alpha and beta) and used that to generate metrics, which we used to update the stock prices reflected on the feed and produce additional information for applications plugged into the dashboard (e.g., market pressure and price trends) to use. Raw price data never made it onchain in any way. </li><li><strong>Verifiability</strong>: Financial applications that interact with external data (e.g., perps exchanges, RWA protocols, and other synthetic asset markets) need guarantees that the data was sourced correctly and that any computations performed on the data as part of the process satisfied validity conditions. Our shielded computing environment generated a cryptographically verifiable proof for every execution that produced a new dataset. By relying on cryptographic hardness, we eliminate the need for trust and guarantee trustless execution for high-value financial applications. </li></ul><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/697262348d3a82c0b7f12893_13.avif" loading="lazy"></div></figure><p>Traditional oracles would have introduced the need for trust, and they wouldn't have been able to ingest live trading data at high speed or perform the additional computation required to extract useful details before publishing onchain. And the end-to-end process ran safely and reliably, relying on cryptography and deterministic computation to ensure the correctness of results. </p><p>More importantly, this project would be impossible without Rialo integrating high-performance execution with trust-minimized data access and confidential/verifiable computation. This is another piece of evidence to support the assertion that supermodularity can deliver tangible benefits for users, developers, and the chain as a whole. </p><h4>Write workflows (chain → world): authenticated operations </h4><p>In addition to verifiable computation, Rialo offers confidential computation. It means that Rialo can keep transaction inputs (such as credentials) private while publishing results without leaking details of the underlying computation. Integrating this primitive with native web calling enables push-based workflows in which transactions access privileged resources (such as APIs and user accounts) and interact with systems in the real world. </p><p>For example, a user can encrypt an authentication token tied to their web2 bank account and create a transaction that instructs Rialo to trigger a transfer if the balance is above a certain level. The validator processing this transaction will decrypt it, make a call to the account using the authentication token, evaluate the balance in a shielded computation environment, and complete the transfer if the balance condition is met. Afterwards, the credential is erased from memory, and the outcome is posted onchain for verification–the user’s balance and credentials are never revealed after execution. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972624e2561bf1259509167_14.avif" loading="lazy"></div></figure><p>When composed with native automation, this feature can allow onchain transactions to securely drive real-world processes. Imagine a user could authorize Rialo to renew a subscription every month, or do something more complex and innovative–like activate Internet of Things (IOT) systems from an onchain transaction using APIs. Once again, integration gives rise to novel features that expand the utility of execution and make blockchain applications more useful.</p><h3>Cross-chain orchestration<strong> </strong></h3><p>Interoperability is native to Rialo: users can transfer assets and send messages between Rialo and other chains via a bridge operated by the chain’s validator set. A native bridge is valuable in its own right, as it reduces reliance on third-party bridges that are often expensive, unreliable, and insecure. Having a native bridge integrated into the execution layer particularly makes life easier for developers building applications that depend on cross-chain value transfers and passing arbitrary messages between chains. </p><p>However, native interoperability becomes even more valuable when combined with other native features Rialo offers. For example, native automation (powered by reactive transactions) can compose with native interoperability to create automated cross-chain transactions that run at scheduled times. This combination allows users to execute complex workflows like “Send 1000 USDC from my Rialo address to my Ethereum account” or “Send a request to mint WBTC to my Solana address whenever the SOL:BTC pair falls below $X”. </p><p>In the latter case (minting WBTC on Solana when SOL:BTC falls below a certain price), an oracle is required to verify a real-world data point (the price of SOL:BTC on the market) before execution can happen. Rialo provides native oracles as a service, so this workflow is straightforward to implement. Once again, we see how integrating different components into a single environment yields emergent properties that enhance the chain’s overall utility and value.</p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972626322ce92abe35d2291_15.avif" loading="lazy"></div></figure><h3>Private and confidential execution </h3><p>Rialo provides privacy as a native, breaking with the trend of outsourcing privacy to application-layer systems (which often introduce new issues and do not always share the underlying chain’s security guarantees). We’ve already provided high-level details in previous sections: users can encrypt inputs and route transactions to a protected execution environment that keeps inputs and intermediate states confidential, publishing only the final outcome onchain. </p><p>Already, the integration of native privacy and execution enables applications to handle sensitive information; applications can review user-provided identity information and control access based on age, nationality, or region without leaking personally identifiable information (PII). It also supports use cases such as authenticated reads and writes, as we discussed previously. Here, a user can provide authentication credentials as encrypted inputs and approve transactions that read or write information to their real-life accounts (e.g., a bank account). Inputs are decrypted only within the protected execution environment and deleted after execution, ensuring user privacy and preventing credentials from being exposed. </p><p>The same functionality can serve as the basis for more advanced and practical applications, such as private financial markets. Currently, users have to publish order information in the clear when trading onchain and risk getting frontrun or spied on. Rialo’s native privacy integration allows users to encrypt sensitive order information and have orders executed confidentially, such that only the final result is made public. This can make onchain finance more attractive to institutions and large trading firms uncomfortable with telegraphing trading intent when submitting transactions for processing. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/6972626f4488830d41aafaa8_16.avif" loading="lazy"></div></figure><p>Composing native privacy with other primitives native to Rialo can create other interesting functionalities as well. Take, for example, a lending platform that calculates a user’s creditworthiness and loanable amount based on real-world credit scores. The application can securely use information retrieved via a web call because the data from the API call is sent directly to a shielded computing environment that never reveals intermediate states and deletes all input data post-execution. The user can receive approval or rejection based on an analysis of their credit score, without risking the actual credit score being published onchain for the world to see. </p><p>Each of the capabilities above emerges from the interaction between supermodular primitives that create new functionality when tightly integrated–none of them are standalone features. Automated and recurring operations, trust-minimized hybrid workflows, cross-chain orchestration, and private and confidential computation don’t exist because Rialo has native automation, native oracles, native web calls, verifiable computation, or native privacy in isolation. They exist because these primitives are composed in ways that compound value through added functionality and utility, and increase the system’s compositional power. </p><p>We obviously dogfood our own theory, as the functions Rialo integrates all reinforce each other in production and make the different components, particularly execution, more valuable as a result of being integrated into the protocol. For instance, native automation makes execution more useful by enabling recurring and scheduled operations; execution, in turn, makes automation worth investing in. Native oracles (and native web calls) enrich onchain execution by allowing transactions that depend on verified external data; meanwhile, high-performance execution stimulates demand for low-latency, high-quality oracle data. </p><p>Confidential and verifiable computation follow a similar pattern. Confidential computation enables the system to support more applications, especially those that require privacy and/or cutting-edge (verifiable) computation, and performant execution makes improving confidential execution worth it. The Project 1337 example showed this clearly: high-performance execution and advanced confidential computation are more valuable because the other exists. </p><p>These primitives don’t merely coexist: improving one increases the return on improving the others. The positive feedback loop created by integrating complementary components gives Rialo greater compositional power, showing just how important pursuing supermodularity is. Other chains that integrate components without a similar framework are bound to generate less value for users and developers, even as they claim to be “integrated” as a differentiating factor in their messaging. </p><figure style="max-width:1600pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69726282236fdb6b87a4ff6d_17.avif" loading="lazy"></div></figure><p>Beyond making the system more capable through powerful integrations, supermodularity also makes Rialo more efficient and economically sound. Previous discussions show the risk of outsourcing critical functions in a production system to external providers. By making these vital functions protocol-native services, Rialo eliminates fragmentation, reduces rent extraction, and improves overall reliability.</p><p>This reveals another aspect of Rialo’s philosophy: a strong belief that a blockchain’s architectural design should also maximize welfare and efficiency instead of merely selecting for arbitrary features. In our next article, titled <strong>“</strong><a href="https://www.rialo.io/posts/supermodularity-and-system-welfare-the-economics-of-integration"><strong>Supermodularity and System Welfare: The Economics of Integration</strong></a><strong>”</strong>, we discuss how supermodularity improves system-wide efficiency and welfare by mitigating fragmentation, reducing rent extraction, and preventing compound marginalization. </p><div class="w-embed"><style>
+/* 🔥 Prevent browser scroll anchoring (fixes jump issue) */
+html, body {
+  overflow-anchor: none;
+  scroll-behavior: auto !important;
+}
+
+/* Offset for fixed header */
+h2, h3 {
+  scroll-margin-top: 100px;
+}
+
+/* Heading wrapper */
+.heading-copy {
+  position: relative;
+}
+
+/* Copy icon (left of heading, spaced out) */
+.copy-icon {
+  position: absolute;
+  left: -34px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  display: inline-block;
+  user-select: none;
+  -webkit-user-select: none;
+
+  opacity: 0;
+  font-size: 0.75em;
+  color: inherit;
+
+  transition: opacity 0.15s ease;
+}
+
+/* Show icon on heading hover */
+.heading-copy:hover .copy-icon {
+  opacity: 0.6;
+}
+
+/* Slight emphasis */
+.copy-icon:hover {
+  opacity: 1;
+}
+
+/* Tooltip (left of icon, no background) */
+.copy-tooltip {
+  position: absolute;
+  right: 120%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 11px;
+  color: #666;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+
+  white-space: nowrap;
+}
+
+/* Show tooltip only on icon hover */
+.copy-icon:hover .copy-tooltip {
+  opacity: 1;
+}
+</style></div></div>
+    <div class="blog-content-section"></div>
+  </main>
+  <div class="next-posts">
+    <h2 animate="" class="h2 blue">Latest Updates</h2>
+    <div class="updates-wrapper w-dyn-list">
+      <div role="list" class="updates w-dyn-items">
+        <div role="listitem" class="update-item w-dyn-item">
+          <a data-w-id="62b75a91-8c85-1601-4f63-f40dbdc484d4" style="color:rgb(232,227,213)" href="#" class="update-link w-inline-block">
+            <h3 class="h3 w-dyn-bind-empty"></h3>
+            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="update-bg"></div>
+            <div class="updates-summary">
+              <p class="w-dyn-bind-empty"></p>
+              <div class="arrow-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right-icon lucide-arrow-up-right">
+                  <path d="M7 7h10v10"></path>
+                  <path d="M7 17 17 7"></path>
+                </svg></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="w-dyn-empty">
+        <div>No items found.</div>
+      </div>
+    </div>
+  </div>
+  <footer data-wf--footer--variant="dark" class="footer">
+    <div class="footer-inner"><img src="/images/rialo-logo.svg" loading="lazy" alt="Rialo Logo" class="logo-img">
+      <div class="footer-links">
+        <a href="https://jobs.ashbyhq.com/subzero" target="_blank" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Careers</a>
+        <a href="/privacy-policy" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Privacy Policy</a>
+        <a href="/terms-of-service" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Terms of use</a>
+        <a href="/brand-assets" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Brand</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6883572e6ebf68cfe676dd65" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="/js/rialo-new.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollSmoother.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/Flip.min.js" defer type="text/javascript"></script>
+  <script type="text/javascript">gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText,Flip);</script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    ScrollTrigger.matchMedia({
+        "(min-width: 768px)": function () {
+            const animatedElements = document.querySelectorAll('[animate]');
+            animatedElements.forEach(element => {
+                let split = new SplitText(element, { type: "chars, words", smartWrap: true });
+                let chars = split.chars;
+                gsap.from(chars, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 60%",
+                        scrub: true
+                    },
+                    opacity: 0.1,
+                    stagger: 0.1
+                });
+            });
+            const animatedTopElements = document.querySelectorAll('[animate-top]');
+            animatedTopElements.forEach(element => {
+                let split = new SplitText(element, { type: "chars, words", smartWrap: true });
+                let chars = split.chars;
+                gsap.from(chars, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 90%",
+                        end: "bottom 70%",
+                        scrub: true
+                    },
+                    opacity: 0.1,
+                    stagger: 0.1
+                });
+            });
+        }
+    });
+});
+    gsap.from(".team-logo", {
+      opacity: 0,
+      y: 50,
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: ".team-grid",
+        start: "top 80%",
+        end: "bottom 60%",
+        scrub: true
+      }
+    });
+</script>
+  <script>
+        class ScrambleText {
+            constructor(element) {
+                this.element = element;
+                this.originalText = element.textContent;
+                this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
+                this.isAnimating = false;
+                this.init();
+            }
+            init() {
+                this.element.addEventListener('mouseenter', () => this.scramble());
+                this.element.addEventListener('mouseleave', () => this.restore());
+            }
+            getRandomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+            scramble() {
+                if (this.isAnimating) return;
+                this.isAnimating = true;
+                const textLength = this.originalText.length;
+                const scrambleSteps = 8;
+                const stepDuration = 0.08;
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        this.isAnimating = false;
+                    }
+                });
+                for (let i = 0; i < scrambleSteps; i++) {
+                    tl.to(this.element, {
+                        duration: stepDuration,
+                        ease: "none",
+                        onUpdate: () => {
+                            let scrambledText = '';
+                            for (let j = 0; j < textLength; j++) {
+                                if (i < scrambleSteps / 2) {
+                                    scrambledText += this.getRandomChar();
+                                } else {
+                                    const revealProgress = (i - scrambleSteps / 2) / (scrambleSteps / 2);
+                                    const revealIndex = Math.floor(revealProgress * textLength);
+                                    if (j < revealIndex) {
+                                        scrambledText += this.originalText[j];
+                                    } else {
+                                        scrambledText += this.getRandomChar();
+                                    }
+                                }
+                            }
+                            this.element.textContent = scrambledText;
+                        }
+                    });
+                }
+                tl.to(this.element, {
+                    duration: 0.1,
+                    ease: "none",
+                    onUpdate: () => {
+                        this.element.textContent = this.originalText;
+                    }
+                });
+            }
+            restore() {
+                if (!this.isAnimating) return;
+                gsap.killTweensOf(this.element);
+                const currentText = this.element.textContent;
+                const steps = 4;
+                const stepDuration = 0.06;
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        this.element.textContent = this.originalText;
+                        this.isAnimating = false;
+                    }
+                });
+                for (let i = 0; i < steps; i++) {
+                    tl.to(this.element, {
+                        duration: stepDuration,
+                        ease: "none",
+                        onUpdate: () => {
+                            const progress = (i + 1) / steps;
+                            const revealCount = Math.floor(progress * this.originalText.length);
+                            let restoredText = '';
+                            for (let j = 0; j < this.originalText.length; j++) {
+                                if (j < revealCount) {
+                                    restoredText += this.originalText[j];
+                                } else {
+                                    restoredText += this.getRandomChar();
+                                }
+                            }
+                            this.element.textContent = restoredText;
+                        }
+                    });
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                new ScrambleText(link);
+            });
+        });
+    </script>
+  <script>
+  $(document).ready(function () {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    if (!isTouchDevice) {
+      $('.logo').on('contextmenu', function (e) {
+        e.preventDefault()
+        $('.download-assets').css({
+          opacity: '1',
+          display: 'flex'
+        })
+      })
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('.download-assets, .logo').length) {
+          $('.download-assets').css({
+            opacity: '0',
+            display: 'none'
+          })
+        }
+      })
+    }
+  })
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.blog-content-section').forEach(section => {
+    const id = section.id;
+    if (id) {
+      section.id = id.trim().toLowerCase().replace(/\s+/g, '_');
+    }
+  });
+  const sections = document.querySelectorAll('.blog-content-section');
+  const links = document.querySelectorAll('.content-link');
+  let scrolling = false;
+  let scrollTimeout;
+  const setActiveLink = () => {
+    if (scrolling) return;
+    let current = null;
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if (top <= 0) {
+        current = section.id;
+      }
+    });
+    links.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('data-scroll') === current);
+    });
+  };
+  document.querySelectorAll('.content-link').forEach(link => {
+    const val = link.getAttribute('data-scroll');
+    if (val) {
+      link.setAttribute('data-scroll', val.trim().toLowerCase().replace(/\s+/g, '_'));
+    }
+    link.addEventListener('click', () => {
+      const targetId = link.getAttribute('data-scroll');
+      const target = document.getElementById(targetId);
+      if (target) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        scrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => { scrolling = false; }, 1000);
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+  window.addEventListener('scroll', setActiveLink);
+  setActiveLink();
+});
+</script>
+  <link rel="stylesheet" href="https://eawosika.github.io/rialo-readerbot/readerbot.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://eawosika.github.io/rialo-readerbot/readerbot.js" defer=""></script>
+  <script src="https://eawosika.github.io/rialo-tooltip/tooltip.js" defer=""></script>
+  <button id="openBtn">Explore this article with AI ✨</button>
+  <div id="miniCard">
+    <div class="mini-kicker">Keep reading with AI ✨</div>
+    <button id="miniBtn">Open Readerbot →</button>
+  </div>
+  <button id="mobileAskBtn">
+    <span class="ask-ai-label">Ask AI</span>
+    <span class="ask-ai-sparkle">✨</span>
+  </button>
+  <aside id="panel">
+    <div id="panelHeader">
+      <div id="panelTitle">Rialo Readerbot 🤖</div>
+      <div id="panelActions">
+        <div class="window-btn-group">
+          <button id="minimizeBtn" class="window-btn window-btn-min">–</button>
+          <button id="expandBtn" class="window-btn window-btn-max">+</button>
+          <button id="closeBtn" class="window-btn window-btn-close">×</button>
+        </div>
+      </div>
+    </div>
+    <div id="messages"></div>
+    <div id="inputArea">
+      <textarea id="input" placeholder="Ask about this article..."></textarea>
+      <button id="sendBtn">Send</button>
+    </div>
+  </aside>
+  <script src="https://eawosika.github.io/rialo-post-meta/post-meta.js" defer=""></script>
+<script src="/js/cms-loader.js"></script>
+</body>
+</html>

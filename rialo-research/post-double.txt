@@ -1,0 +1,112 @@
+# Rialo Foundations I: Double Marginalization in Crypto
+
+      Published on
+      December 19, 2025
+
+      Summary
+
+- 
+
+When developers complain that crypto applications are expensive to build and hard to run profitably, they often blame gas fees, scaling limits, or user friction. But there’s another, deeper issue at play: the compounding cost of middleware.
+
+When developers complain that crypto applications are expensive to build and hard to run profitably, they often blame gas fees, scaling limits, or user friction. But there’s another, deeper issue at play: the compounding cost of middleware.
+
+Middleware originally emerged to provide the functionalities that base-layer blockchains lacked. They provided critical (off-chain) services, like feeds, indexing, scheduling, and bridging, that made it possible to build more sophisticated applications. These services carried extra costs, but the value they offered easily justified the expense, and demand for them created a flourishing middleware ecosystem.
+
+However, the costs began to mount over time. As middleware protocols grew in importance, so did the prices they charged. The near-monopoly position of certain providers allowed them to hike fees while consumer protocols remained locked in. Even where individual costs seemed reasonable, the cumulative effect of paying multiple middleware providers across different layers of the stack became significant. What started as a convenience evolved into a structural tax on onchain businesses that erodes margins and constrains what developers can build. 
+
+Astute readers might notice that this feels like an example of double marginalization in practice. The term comes from economics and describes what happens when multiple monopolistic entities in a supply chain each maximize profit without considering the overall system. Every layer adds its own markup to improve margins, but the combined effect raises the final price, reduces demand, and shrinks total profit. In the end, everyone loses: consumers buy less, and both the manufacturer and retailer earn less because fewer units are sold.
+As you might remember from an economics textbook, under compounding marginalization, each extra layer adds its own markup (µj). It then also amplifies prior markups by downstream pass-through (captured by τi). The resulting price distortion is:
+
+
+
+
+
+
+
+
+The price goes up layer by layer, with markups and pass-throughs stacking. And then despite all these price increases, total profit is lower since the high price reduces demand across the system (∂Lπ(L) < 0).
+
+A similar dynamic plays out in crypto. Consumer-facing applications must contend with both base-layer blockchains and middleware protocols charging independently for services–each one intent on maximizing revenue without any consideration for user welfare. The costs accumulate quickly, forcing applications to raise user fees to remain solvent. Aggregate demand falls, and everyone loses: users pay more, while base layers and middleware providers collect less over time, since their revenues ultimately depend on the very applications and users their pricing drives away.
+
+While double marginalization is the original term, compound marginalization is a more accurate description of what happens in crypto. The modern blockchain supply chain involves multiple monopolistic entities, each marking up prices as if it were alone and compounding inefficiencies across the stack. This results in a systemic reduction of aggregate margins and consumer surplus. 
+
+Beyond pushing out marginal users, this dynamic also selects for applications that cater primarily to the most price-insensitive segments of the market–for example, whales and traders in DeFi lending protocols. It’s no surprise, then, that we see a “crypto desert”: a landscape dominated by speculative financial tools and a dearth of useful, non-financial applications. Developers won’t build if the users won’t come. 
+
+Solving crypto’s compound marginalization problem requires both first-principles thinking and a look at what has worked elsewhere. First-principles thinking, in this context, means re-examining the core premise of blockchains. If we expect them to replace parts of today’s internet infrastructure, they should make the end-to-end process of building and running applications as seamless and efficient as possible. Mass adoption will remain elusive as long as operational costs prevent developers from building sophisticated, feature-rich onchain systems. This calls for questioning one of crypto’s most persistent dogmas (i.e., that base-layer blockchains should do as little as possible) and exploring what happens when blockchains assume more responsibility for the functions developers already rely on.
+
+Speaking of what’s worked elsewhere, economics offers some useful insights. The standard solution to double marginalization is vertical integration: merging distinct stages of a supply chain so that a single entity controls both production and distribution. Instead of two monopolies each adding their own markup, one vertically integrated firm sets a single price, lowering costs for consumers and expanding total demand. Because the firm no longer needs to anticipate another’s price increase, it can charge less while earning more overall.
+
+
+Illustration for Double Marginalization
+
+
+
+Vertical integration can also occur when a producer brings a critical input in-house; for example, an electric-vehicle manufacturer that builds its own batteries. The effects are similar: lower total prices, tighter coordination, and often new advantages such as greater supply-chain resilience and knowledge transfer between teams. Preventing double marginalization is the key benefit, but efficiency and reliability gains often follow when companies vertically integrate. 
+
+The same principle can apply to crypto. Instead of merely confining base layers to consensus, data availability, and execution, we can design them to include the services that middleware currently provides: data feeds, indexing, cross-chain communication, and many more. In economic terms, this is vertical integration: the blockchain broadens its scope, absorbs layers of the stack that once operated independently, and eliminates redundant markups. The result is a protocol that’s both more useful to developers and cheaper for end-users–one that restores healthy margins, increases demand, and revives the incentive to build.
+
+## How does Rialo solve crypto’s compound marginalization problem?
+
+Rialo addresses compound marginalization primarily through vertical integration: building services and features that dapps currently outsource to middleware into the core protocol. Data feeds, transaction automation, native web calls, indexing, and similar functions are handled natively, eliminating third-party dependencies and redundant markups. 
+
+Rialo’s vertical integration has an important side effect: pricing coordination. By collapsing multiple, monopolistic fee-setting layers into a single system, Rialo ensures that pricing decisions are made with total throughput and user welfare in mind, not isolated revenue targets. In other words, the protocol behaves as one entity optimizing for ecosystem efficiency rather than a collection of independent rent-seekers.
+
+Rialo is also designed to mitigate what we call a “tragedy of the commons for pricing.” In the current ecosystem, each layer of infrastructure extracts rent from the same pool of users, assuming the others will moderate their fees. What looks like healthy competition (blockchains and middleware vendors innovating, charging for services, and pursuing revenue) actually erodes total demand and consumer surplus over time. Rialo’s vertically integrated architecture removes these competing incentives, restoring coordination and making the economics of building onchain sustainable again.
+
+Let’s put the significance of this solution into context by examining the scale of the problem today.
+
+## Quantifying compound marginalization
+
+A new paper from Subzero Labs (core developer of [Rialo](https://www.rialo.io/)) notes that micro-fees charged by middleware providers behave like tolls along a multi-hop value chain. When every participant prices independently, the cumulative markup on a single transaction can exceed what end-users are willing to pay, especially on high-throughput chains where off-chain services must update in near real time. The table below shows average costs borne by applications at different layers of the blockchain stack:
+
+
+Figure 1. Each layer beyond the base protocol introduces its own micro-fee and associated failure mode.
+
+
+
+The authors visualize this effect as a loss of total surplus, the combined benefit to builders and users that disappears when middleware tolls compound. In the fragmented case, where each layer prices services independently, total surplus is absorbed by [deadweight loss](https://en.wikipedia.org/wiki/Deadweight_loss). Formally, deadweight loss is the value destroyed when uncoordinated pricing prevents mutually beneficial trade. No participant–not users, developers, or blockchains–gains from it; it is pure waste stemming from coordination failure.
+Figure 2. Middleware tolls erode total surplus. In an integrated system (left), builder profit and user surplus are jointly maximized. In a three-layer stack (right), each layer extracts its own fee, creating dead-weight loss that neither builders nor users recover.
+
+
+
+A Rialo Developer Survey conducted earlier this year illustrates how steep middleware costs can become across ecosystems:
+Figure 3. These are self reported numbers from the Rialo Developer Survey. The problem worsens on faster chains, where demand for low-latency off-chain services is higher.
+
+As the survey results show, even modest middleware fees compound quickly. On high-speed networks like Solana, developers often spend hundreds of thousands of dollars per month maintaining oracles, RPC infrastructure, and indexing services. EVM blockchains are not spared, either; operating costs for developers routinely exceed thousands of dollars. 
+
+For developers, compounding middleware costs are existential. These costs can erase up to 90% of total economic surplus, leaving only high-margin, price-insensitive use cases–like leveraged DeFi–to survive. In the next section, we’ll see a plausible example of compound marginalization in action. 
+
+
+
+## Modeling the drain
+
+To see how quickly these costs compound, consider liquidation checks on a lending protocol such as Aave. Maintaining the off-chain infrastructure required for liquidating loan positions (price feeds, keepers, and indexers) can exceed the cost of the transaction itself. In one example from the paper mentioned earlier, the additional cost of performing liquidation checks breaks down as follows:
+
+- 300% extra for scheduling
+- 200% extra for data
+- $4,000 per month for indexing fast results
+
+In the paper’s model, “extra” refers to service costs separate from the base transaction fee. In the case of a lending protocol, an application that spends $1 on gas could incur over $5 in extra costs before the loan is successfully liquidated. Additionally, lenders like Aave pay roughly 5% of each loan to liquidation bots. Given that Aave’s average loan size is around $100,000 (based on $9 billion in total borrows across 90,000 monthly borrowers), that translates to an extra $5,000 per liquidation in operational overhead.
+
+This is compound marginalization in practice. We see how multiple layers take a cut until the total cost of operating rivals or exceeds the value of the transaction being processed. Those services may have emerged to make building apps like Aave onchain more convenient, but they clearly impose an invisible tax on businesses. 
+
+## The (human) costs of fragmentation
+
+Today’s crypto middleware stack behaves like a chain of sequential monopolies, where each provider (rationally) maximizes revenue without considering the downstream impact on aggregate demand and onchain activity. These findings explain why crypto’s growth remains concentrated in high-value financial niches. When every layer of the stack extracts rent, only capital-intensive applications (whose users can stomach the compounding tax) survive. Everyday use cases, where margins are thinner and users are more elastic, simply disappear.
+
+Let’s explore the consequences of compound marginalization from the perspective of developers and users:
+
+Developers are the first direct victims of compound marginalization. Every additional off-chain fee compresses developer surplus, or the margin left over after paying for offchain infrastructure costs. When those operating costs exceed what a developer can recover through fees or token incentives, the motivation to innovate and continue building disappears. The second-order effect is fewer apps (and higher prices for remaining apps), which is the “crypto desert” effect we described earlier. 
+
+Consumers are also deeply affected by compound marginalization. Each markup added by a middleware provider raises the effective price of using an application (developers recoup operating costs by charging users more fees). This narrows the gap between what users are willing to pay and what they actually pay and reduces “consumer surplus”. Once that surplus turns negative, users exit the market entirely. The effect compounds across the stack: developers withdraw because users won’t pay, and users leave because developers can’t afford to build. The result is a feedback loop of declining surplus on both sides–a structural ceiling on crypto adoption.
+
+By collapsing middleware functions into the base protocol, Rialo aims to reclaim this lost surplus. The Subzero Labs model suggests that even modest reductions in compounding markups can produce exponential gains in both developer and consumer welfare. In practice, that means lower operating costs for builders, cheaper applications for users, and renewed incentive to innovate.
+
+## Toward coordinated and integrated systems
+
+Compound marginalization exposes an uncomfortable truth about today’s crypto stack: the haphazard pursuit of modularity has created unintended consequences and severely constrained mass adoption. Middleware layers were originally meant to enable specialization, but without shared incentives, specialization breeds fragmentation. The result is a broken, inefficient system optimized for revenue extraction rather than a coherent, integrated network focused on value creation.
+
+Rialo’s vertical integration offers a promising solution to the problem of compound marginalization. By embedding core middleware functions directly into the base protocol, Rialo transforms what used to be external dependencies into native capabilities. This approach lowers fees, improves coordination between infrastructure and applications, and aligns the incentives of developers and users–increasing overall welfare across the ecosystem.
+
+The next catalyst for crypto’s mass adoption will not be faster consensus systems or novel execution models. It will be intelligently designed systems that reduce the cost of innovation and encourage broader participation in the application ecosystem. Rialo is leading this shift, accelerating the process of onboarding the next billion users onto crypto rails.

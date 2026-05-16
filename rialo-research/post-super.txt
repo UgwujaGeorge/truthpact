@@ -1,0 +1,166 @@
+# Rialo Foundations II: Supermodularity and Blockchain Integration
+
+      Published on
+      April 22, 2026
+
+      Summary
+
+- 
+
+“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily concerned with basic properties, such as throughput, speed, and simple composability. Then, the decision to decouple the blockchain stack into s
+
+“Modular vs. monolithic” has been one of crypto’s defining debates in the last decade. Indeed, this framing was useful when blockchain design was primarily concerned with basic properties, such as throughput, speed, and simple composability. Then, the decision to decouple the blockchain stack into separate layers or tightly integrate everything into a single execution environment was considered the biggest determinant of performance and utility.
+
+However, these properties have been partially commoditized in recent years due to significant improvements in scaling techniques, execution environment design, and interoperability infrastructure. Chains can no longer treat being fast, cheap, or even interoperable as a unique selling point. At the same time, “modular vs. monolithic” is less useful now that the features that motivated the framing (and associated design decisions) are widely accessible and no longer serve as a differentiating factor.
+
+A key problem with the old monolithic-modular framing is that it mostly ignores the economics and mechanics of integration. Specifically, it says little about a system’s compositional power–the advantages gained from selectively integrating components–and doesn’t explain why some integrations increase economic value, efficiency, and utility, even as others add operational complexity and extra coordination overhead. When protocol designers approach integration as a purely ideological or architectural concern, they make wrong choices: either overintegrating components that should be separate or underintegrating components that produce more output when combined. 
+
+At Rialo, we treat integration as an economic decision and adopt a systematic, quantitative framework that decides which components are integrated into the protocol and which remain external. We call this philosophy supermodularity. This new philosophical framework moves crypto away from the old and restrictive binary of modular vs. monolithic–the question is no longer whether a system should be modular or monolithic, but whether it is supermodular and to what extent. 
+
+In this article, we explain the origins and economic underpinnings of supermodularity and show why it offers a better approach to evaluating different blockchain architectures. We also present examples of supermodularity in real-world systems and illustrate how it shows up in various blockchain contexts. Most importantly, we reveal how supermodularity informs Rialo’s designs and what developers and users can expect from using a supermodular chain like Rialo. 
+
+## What is supermodularity?  
+
+Supermodularity describes the compositional power a system gains by integrating components that complement each other in production and create new system-level capabilities when composed together. In a supermodular system, integration follows a very deliberate pattern: components are integrated only if integration makes the system more capable and powerful. 
+
+A supermodular system is often greater than the sum of its parts; think of it as adding 1 + 1 and getting 3. The additional value comes from the integration of supermodular components, which unlocks emergent properties (that would not exist without integration), not from the individual components. This effect is well-studied, and we will use a real-world example (GPS and phones) to illustrate how supermodularity works. 
+
+Initially, GPS, payment systems, and phones existed independently until smartphones came and combined all three functions into a single system. This integration unlocked novel functionality and led to the creation of new industries: ride-hailing (Uber), real-time logistics (DoorDash), e-commerce (Amazon), and many more. These features could not have possibly existed back when GPS, payment infrastructure, and phones were separate components. That’s the power of supermodularity. 
+
+We can observe similar dynamics in blockchain environments when strategically complementary components (components that reinforce each other in production) are integrated. When integration follows this pattern, blockchains unlock emergent properties that make onchain execution more useful, valuable, and efficient. Hyperliquid is a great example: they started as a trading app and then migrated to a chain that integrated price feeds and risk-management primitives with execution. Combining the functions of pricing, execution, and liquidation into a unified system gave Hyperliquid an edge over other blockchains–it created a native trading engine that executed trades at CEX-like speeds while retaining the benefits of onchain execution (transparency and fault tolerance). 
+
+Unlike the old “modular vs. monolithic” framing, supermodularity does not describe how many layers a blockchain has or the level of coupling between them. It instead focuses on a blockchain’s compositional power, quantifying the economic value the system derives from integrating different components and evolving additional capabilities. Different blockchains exist on different points on this spectrum–they integrate various components, and those integrations produce varying capabilities and value. A blockchain can be “integrated” and have low compositional power because the components don’t reinforce each other in production. 
+
+This is why the “modular vs. monolithic” framing is increasingly misleading and unhelpful. It treats integration as a purely architectural choice rather than an economic decision, and doesn’t ask whether it is economically justified. A blockchain system will struggle if integration is implemented without an economic theory of composition, not because it is “too modular” or “too monolithic”. Often, the lack of a guiding principle guiding integration means blockchains either overintegrate functions that fail to compound value or underintegrate functions that are supermodular and increase compositional power. 
+
+Supermodularity does away with the old framing and provides a more straightforward, more rational objective to guide integration when designing blockchains. The aim is to integrate as many functions that reinforce each other, and create emergent capabilities through integration, and externalize everything else. All of this is done to find points of integration that maximize chain utility, system welfare, net economic value, and efficiency–properties that determine a chain’s adoption in a world where everything else (performance, scale, and basic composability) is a commodity. 
+
+In the next section, we’ll discuss the basics of the economic theory that underpins supermodularity and explain in more detail the criteria for choosing which components to integrate. We’ll also show more examples to illustrate further the various ways supermodular designs create additional value for the systems that adopt them.
+
+## An economic framework for choosing what to integrate  
+
+A system is supermodular if its components reinforce each other in production. That is, increasing one component should raise the value of increasing another component. We can show how this works using the cross-partial derivative:
+
+If the cross partial is positive, it means the inputs (x and y) are complementary in production. Increasing x makes increasing y more valuable, and vice versa. If it is zero or negative, the inputs are independent or substitutable (they do not reinforce each other in production), and integration does not create additional value.
+
+
+
+Supermodularity is also expressed in lattice theory as:
+
+Here, we have a similar intuition to the original equation: the output of moving two variables (x and y) together is higher than that of moving them separately. When two components mutually reinforce each other, we describe this as “strategic complementarity” and say they are strategically complementary.
+
+These two mathematical concepts point to distinct yet related requirements for supermodular designs. The first is complementarity in production: two components are supermodular when they reinforce each other in production. Increasing component A should raise the marginal value of increasing component B, and increasing component B should raise the marginal value of increasing component A. Put differently, improving one component should increase the return on improving another component in the system.  
+
+The second is that integration must create surplus value: the output from increasing both components together should be higher than the output from increasing each component in isolation. If a system creates more value when components exist independently than when they are integrated and jointly improved, integration will create negative or zero value. Integration must produce more than just convenience–the system should be meaningfully more performant and efficient when it integrates components. 
+
+Let’s illustrate this with the example of an electric car company that integrates two functions: battery production and vehicle manufacturing. Batteries and cars are complementary in production. Scaling battery production makes investments in scaling vehicle production productive, since batteries are a critical input, and a reliable, affordable battery supply makes EV production less risky and costly. Scaling vehicle production, in turn, increases the value of improving battery manufacturing by creating demand and increasing the return on battery-specific improvements. 
+
+Co-producing batteries and electric vehicles also creates new capabilities for a manufacturer. Battery designs can be tailored to specific cars and vice versa, which can increase both battery performance and vehicle lifespan. Unit production costs can be reduced, and overall product quality improved, now that a single manufacturer controls the end-to-end process. None of this would have been possible if battery production and vehicle manufacturing were handled and optimized by two separate companies. 
+
+Integration in blockchain environments follows a similar dynamic. Components that are complementary in production and unlock more value and output when coupled are integrated. Components that fail to reinforce each other in production and produce more value in isolation are not integrated. Components in the first category and second category are called “supermodulars” and “complements”, respectively. This yields a simple heuristic for designing supermodular systems: integrate the supermodulars and commoditize the complements. 
+
+Supermodularity allows us to reason about integration from an economic perspective: we integrate components that reinforce each other in production and commodify everything else. Components that pass the supermodularity test are integrated into the base layer (and composed with execution); components that fail are treated as commodities, meaning they are acquired at competitive prices from external providers.
+
+The previous example (Hyperliquid) revealed blockchain execution and price feeds (oracles) as supermodular components. A native price feed makes blockchain execution more valuable by enabling complex execution logic–particularly for financial applications–that depends on reliable, timely access to real-time prices, such as conditional orders, liquidations, margin checks, and circuit breakers. Blockchain execution also makes investing in native price feeds valuable because it creates sustained demand for high-quality pricing data and raises the value of investing in better oracle designs. 
+
+When a blockchain combines execution and price feeds (like Hyperliquid does), the result is a fresh onchain trading experience that combines the responsiveness and speed of centralized platforms with the accessibility and verifiability of public blockchains. This improved system not only performs better and has fewer external dependencies, but also lowers the cost of building applications (e.g., real-time DeFi lending) and supports a wider range of use cases. We wouldn’t see these properties if the functions of execution and provision of pricing data were decoupled. 
+
+Contrast this with the example of a different component: fiat onramps. Fiat onramps do not complement blockchain execution in production. A better fiat onramp doesn’t make blockchain execution more performant or valuable, nor does improved execution meaningfully impact the design or performance of a fiat onramp. Additionally, a blockchain that integrates fiat onramping won’t see any new capabilities emerge–a new user might find it easier to onboard, but that’s about it. 
+
+Fiat onramping is an example of a component that complements blockchain execution in consumption but not in production. Integrating fiat onramping with execution makes it easier to acquire assets and use the chain, but the integration will not create new value or yield more utility. Fiat onramping is thus better treated as a commodity output sourced at competitive prices from external providers rather than bundled with execution on a blockchain. 
+
+### How supermodularity works on Rialo 
+
+Rialo’s design is built around a core idea: integrate functions that meaningfully reinforce each other and make the system meaningfully more powerful and functionally richer. Rialo integrates several primitives into the base layer and offers them as protocol-native services. But the point is less what those features do in isolation and more what they enable when composed together in the system. 
+
+The capabilities described below emerge from the interaction between the components Rialo integrates and are not the result of implementing a single feature. We also show how these emergent capabilities expand the design space for onchain applications and support the creation of novel use cases. That way, the value of supermodularity in crypto-native contexts feels more practical and less abstract. 
+
+### Automated and recurring operations 
+
+On Rialo, users can create automated transactions that execute at a specific time in the future based on conditions defined and stored in the chain’s state as predicates. This feature introduces a new type of transaction, a reactive transaction, that can respond to events–including events happening onchain (e.g., emitted smart contract events and changes in block height) or events happening offchain (e.g., changes in market price of a particular asset or completion of a real-world payment). Reactive transactions are executed automatically by Rialo whenever the predefined conditions are met–no need for bots, keepers, or external schedulers to trigger execution. 
+
+Combining reactive transactions with Stake-for-Service’s onchain gas funding mechanism enables Rialo to support recurring automated transactions that require minimal upkeep. Traditionally, running a scheduled operation on an ongoing basis requires the account executing the transaction always to have a balance sufficient to cover the execution cost. If the account runs out of funds to cover gas fees, execution can fail, interrupting the scheduled operation. This adds significant overhead to running recurring automated transactions, as users must monitor the account to prevent the balance from falling below the acceptable threshold. 
+
+With [Stake-for-Service](https://www.rialo.io/posts/stake-for-service), users can create a staking position and convert staking rewards into credits that help cover the cost of executing transactions. Creating a staking position for an account executing scheduled operations effectively establishes a funding source to cover the account’s gas fees indefinitely. Picture automated transactions that run forever without users worrying about low balances causing failed execution–this is possible on Rialo because of capabilities that emerge from the combination of native automation (reactive transactions) and native gas abstraction (Stake-for-Service). 
+
+But there’s more: these automated workflows can be put to more advanced uses by combining native automation (funded by SFS rewards) with other components that Rialo integrates, especially native oracles and native web calls. Automated transactions become more expressive and useful when they have access to verified external data and can interact with real-world systems to trigger events in reality. 
+
+This functionality can enable use cases like:
+
+- Simple time-based workflows: Recurring DCA trades, gradual vesting unlocks, and protocol maintenance operations 
+- Subscriptions and recurring payments
+- Cross-protocol orchestration (“If one protocol does X, tell another protocol to do Y) 
+- Closed financial protocols that run in self-contained loops and autonomously adjust to onchain and offchain conditions 
+
+The last item is particularly interesting. To run a financial protocol onchain today, you need a patchwork of oracle nodes, bots, keepers, and protocol maintenance teams to keep the protocol running smoothly. But with native automation that can access verified external data (via native oracles and web calls), while running sustainably over time with reliable sources of funding available (Stake-for-Service), it is possible to create an autonomous financial protocol that mostly maintains itself and doesn't need a sprawling network of providers and human teams to operate properly. 
+
+For example: a lending market that continuously monitors both market conditions, protocol activity, and onchain events and dynamically adjusts risk parameters to maintain desired invariants. It can pull attested price data from the native oracle at defined intervals, monitor at-risk loan positions, dynamically update fees and collateral requirements to control lending and borrowing volumes, and even trigger circuit breaker logic under certain conditions. 
+
+All of this can feasibly happen without external involvement and shows the power of a supermodular blockchain that integrates complementary functions that unlock extra functionality and compound value. Next, we’ll show another emergent capability that arises from selectively integrating valuable primitives in interesting ways. 
+
+### Trust-minimized hybrid workflows 
+
+A “real-world blockchain” makes it easy for onchain applications to interact with real-world data and infrastructure. This functionality makes blockchain execution more useful and functionally richer–crypto-native applications are currently limited by their inability to access anything outside the blockchain. Rialo supports hybrid execution that combines onchain and offchain components through a combination of native web calls, confidential computation, and data attestation. 
+
+Hybrid workflows can come in two forms:
+
+#### Read workflows (world → chain): verified external inputs 
+
+Hybrid applications can retrieve real-world information and use it as an input to execution that drives onchain state. When the outcomes driven by real-world data are valuable (e.g., a prediction market settling a bet), applications need strong guarantees that the data is accurate and properly sourced. Rialo’s oracle attestation infrastructure provides applications with this guarantee and can further attest to the integrity of any computation performed on top of that data.
+
+This example also reveals a key insight about integrating supermodulars and commoditizing complements. The data itself (e.g., weather information) is often a commodity, and the costs of integrating data provision outweigh the benefits. But attesting to the provenance of data and performing confidential and verifiable computation using attested data are supermodular functions. So, Rialo integrates attestation and verifiable computation and sources real-world data from external providers (e.g., getting weather data from [Weather.com](http://weather.com/)). 
+
+To illustrate the value of this integration, consider a prediction market that needs to resolve a weather forecast market securely. The protocol submits a list of sources to pull data from and instructs Rialo to compute the average of reported figures and use the result to settle the market. Rialo completes this flow and generates a proof that verifies the source of the information, confirms the integrity of the execution that produced the result, and determines final payouts. 
+
+#### Case study: Project 1337 
+
+Composing Rialo’s fast execution with trust-minimized data access and confidential, verifiable computation creates a real-time data pipeline that supports financial applications that need verified external data delivered at sub-second latency (often in formats tailored to individual apps). The [Project 1337 demo](https://www.rialo.io/posts/project-1337) proved the utility of building a real-time financial data pipeline like this. 
+
+Over the course of days, we streamed real-time price information related to 1337 stocks in total (including popular stocks like AAPL and TSLA) onchain and visualized it on a public dashboard. Not only did we provide a native price feed (with millisecond-level updates), but we also offered useful, contextual market signals for each stock, such as current buy/sell pressure and short-term price momentum. We did this without using an external oracle and generated cryptographic proof that both prices and market signals resulted from correct execution. 
+
+The demo required ingesting live trading data from [Massive.io](http://massive.io/) via an API call and running additional pre-processing (e.g., filtering noise, quantifying market sentiment, and calculating momentum of price changes) on ingested data. The execution happened inside a shielded computing environment, which achieved two objectives: 
+
+- Confidentiality: Scraping live data and republishing in raw form is barred under the Terms of Service. We instead took the live data and preprocessed it to extract valuable signals (e.g., alpha and beta) and used that to generate metrics, which we used to update the stock prices reflected on the feed and produce additional information for applications plugged into the dashboard (e.g., market pressure and price trends) to use. Raw price data never made it onchain in any way. 
+- Verifiability: Financial applications that interact with external data (e.g., perps exchanges, RWA protocols, and other synthetic asset markets) need guarantees that the data was sourced correctly and that any computations performed on the data as part of the process satisfied validity conditions. Our shielded computing environment generated a cryptographically verifiable proof for every execution that produced a new dataset. By relying on cryptographic hardness, we eliminate the need for trust and guarantee trustless execution for high-value financial applications. 
+
+Traditional oracles would have introduced the need for trust, and they wouldn't have been able to ingest live trading data at high speed or perform the additional computation required to extract useful details before publishing onchain. And the end-to-end process ran safely and reliably, relying on cryptography and deterministic computation to ensure the correctness of results. 
+
+More importantly, this project would be impossible without Rialo integrating high-performance execution with trust-minimized data access and confidential/verifiable computation. This is another piece of evidence to support the assertion that supermodularity can deliver tangible benefits for users, developers, and the chain as a whole. 
+
+#### Write workflows (chain → world): authenticated operations 
+
+In addition to verifiable computation, Rialo offers confidential computation. It means that Rialo can keep transaction inputs (such as credentials) private while publishing results without leaking details of the underlying computation. Integrating this primitive with native web calling enables push-based workflows in which transactions access privileged resources (such as APIs and user accounts) and interact with systems in the real world. 
+
+For example, a user can encrypt an authentication token tied to their web2 bank account and create a transaction that instructs Rialo to trigger a transfer if the balance is above a certain level. The validator processing this transaction will decrypt it, make a call to the account using the authentication token, evaluate the balance in a shielded computation environment, and complete the transfer if the balance condition is met. Afterwards, the credential is erased from memory, and the outcome is posted onchain for verification–the user’s balance and credentials are never revealed after execution. 
+
+When composed with native automation, this feature can allow onchain transactions to securely drive real-world processes. Imagine a user could authorize Rialo to renew a subscription every month, or do something more complex and innovative–like activate Internet of Things (IOT) systems from an onchain transaction using APIs. Once again, integration gives rise to novel features that expand the utility of execution and make blockchain applications more useful.
+
+### Cross-chain orchestration 
+
+Interoperability is native to Rialo: users can transfer assets and send messages between Rialo and other chains via a bridge operated by the chain’s validator set. A native bridge is valuable in its own right, as it reduces reliance on third-party bridges that are often expensive, unreliable, and insecure. Having a native bridge integrated into the execution layer particularly makes life easier for developers building applications that depend on cross-chain value transfers and passing arbitrary messages between chains. 
+
+However, native interoperability becomes even more valuable when combined with other native features Rialo offers. For example, native automation (powered by reactive transactions) can compose with native interoperability to create automated cross-chain transactions that run at scheduled times. This combination allows users to execute complex workflows like “Send 1000 USDC from my Rialo address to my Ethereum account” or “Send a request to mint WBTC to my Solana address whenever the SOL:BTC pair falls below $X”. 
+
+In the latter case (minting WBTC on Solana when SOL:BTC falls below a certain price), an oracle is required to verify a real-world data point (the price of SOL:BTC on the market) before execution can happen. Rialo provides native oracles as a service, so this workflow is straightforward to implement. Once again, we see how integrating different components into a single environment yields emergent properties that enhance the chain’s overall utility and value.
+
+### Private and confidential execution 
+
+Rialo provides privacy as a native, breaking with the trend of outsourcing privacy to application-layer systems (which often introduce new issues and do not always share the underlying chain’s security guarantees). We’ve already provided high-level details in previous sections: users can encrypt inputs and route transactions to a protected execution environment that keeps inputs and intermediate states confidential, publishing only the final outcome onchain. 
+
+Already, the integration of native privacy and execution enables applications to handle sensitive information; applications can review user-provided identity information and control access based on age, nationality, or region without leaking personally identifiable information (PII). It also supports use cases such as authenticated reads and writes, as we discussed previously. Here, a user can provide authentication credentials as encrypted inputs and approve transactions that read or write information to their real-life accounts (e.g., a bank account). Inputs are decrypted only within the protected execution environment and deleted after execution, ensuring user privacy and preventing credentials from being exposed. 
+
+The same functionality can serve as the basis for more advanced and practical applications, such as private financial markets. Currently, users have to publish order information in the clear when trading onchain and risk getting frontrun or spied on. Rialo’s native privacy integration allows users to encrypt sensitive order information and have orders executed confidentially, such that only the final result is made public. This can make onchain finance more attractive to institutions and large trading firms uncomfortable with telegraphing trading intent when submitting transactions for processing. 
+
+Composing native privacy with other primitives native to Rialo can create other interesting functionalities as well. Take, for example, a lending platform that calculates a user’s creditworthiness and loanable amount based on real-world credit scores. The application can securely use information retrieved via a web call because the data from the API call is sent directly to a shielded computing environment that never reveals intermediate states and deletes all input data post-execution. The user can receive approval or rejection based on an analysis of their credit score, without risking the actual credit score being published onchain for the world to see. 
+
+Each of the capabilities above emerges from the interaction between supermodular primitives that create new functionality when tightly integrated–none of them are standalone features. Automated and recurring operations, trust-minimized hybrid workflows, cross-chain orchestration, and private and confidential computation don’t exist because Rialo has native automation, native oracles, native web calls, verifiable computation, or native privacy in isolation. They exist because these primitives are composed in ways that compound value through added functionality and utility, and increase the system’s compositional power. 
+
+We obviously dogfood our own theory, as the functions Rialo integrates all reinforce each other in production and make the different components, particularly execution, more valuable as a result of being integrated into the protocol. For instance, native automation makes execution more useful by enabling recurring and scheduled operations; execution, in turn, makes automation worth investing in. Native oracles (and native web calls) enrich onchain execution by allowing transactions that depend on verified external data; meanwhile, high-performance execution stimulates demand for low-latency, high-quality oracle data. 
+
+Confidential and verifiable computation follow a similar pattern. Confidential computation enables the system to support more applications, especially those that require privacy and/or cutting-edge (verifiable) computation, and performant execution makes improving confidential execution worth it. The Project 1337 example showed this clearly: high-performance execution and advanced confidential computation are more valuable because the other exists. 
+
+These primitives don’t merely coexist: improving one increases the return on improving the others. The positive feedback loop created by integrating complementary components gives Rialo greater compositional power, showing just how important pursuing supermodularity is. Other chains that integrate components without a similar framework are bound to generate less value for users and developers, even as they claim to be “integrated” as a differentiating factor in their messaging. 
+
+Beyond making the system more capable through powerful integrations, supermodularity also makes Rialo more efficient and economically sound. Previous discussions show the risk of outsourcing critical functions in a production system to external providers. By making these vital functions protocol-native services, Rialo eliminates fragmentation, reduces rent extraction, and improves overall reliability.
+
+This reveals another aspect of Rialo’s philosophy: a strong belief that a blockchain’s architectural design should also maximize welfare and efficiency instead of merely selecting for arbitrary features. In our next article, titled “Supermodularity and System Welfare: The Economics of Integration”, we discuss how supermodularity improves system-wide efficiency and welfare by mitigating fragmentation, reducing rent extraction, and preventing compound marginalization.

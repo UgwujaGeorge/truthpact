@@ -1,0 +1,139 @@
+# Subzero Labs (Rialo) Welcomes On World-Renowned Cryptography Pioneer Jan Camenisch
+
+      Published on
+      December 19, 2025
+
+      Summary
+
+- 
+
+Subzero Labs is bringing on Jan Camenisch, one of the most influential cryptographers of the past three decades. This represents a major milestone in the company’s mission to build the privacy-preserving and cryptographically secure infrastructure required for decentralized systems to integrate secu
+
+Subzero Labs is bringing on Jan Camenisch, one of the most influential cryptographers of the past three decades. This represents a major milestone in the company’s mission to build the privacy-preserving and cryptographically secure infrastructure required for decentralized systems to integrate securely with Web2 and meet billions of users where they are.
+
+Camenisch is globally recognized for foundational contributions across anonymous credentials, secure multi-party computation, privacy-preserving identity, verifiable computation, and trusted hardware security. He also founded the post-quantum research team at IBM Research Zurich that authored many of the NIST post-quantum cryptography standards for signatures and encryption. Few researchers have shaped the field of applied cryptography and privacy as profoundly as he has.
+
+
+
+## A Legacy of Cryptographic Breakthroughs
+
+During his two decades at IBM Zurich Research Lab, Camenisch led one of the world’s most prolific industrial cryptography groups. His team advanced practical privacy-preserving cryptographic technologies well before Web3 existed as an industry.
+
+Among their major contributions:
+
+### Identity Mixer (Idemix): A Pioneering Anonymous Credential System
+
+Jan co-designed Identity Mixer, a groundbreaking system allowing users to authenticate and selectively disclose attributes without revealing their identity or personal data.
+
+Idemix introduced concepts now central to decentralized identity, such as unlinkable credentials, selective disclosure (“prove you’re over 18 without showing your birthday”), and zero-knowledge verification for real-world identity attributes.
+
+Identity Mixer became a reference design for privacy-preserving authentication in both academia and industry.[](https://dl.acm.org/doi/10.5555/1766811.1766838)
+
+### [Camenisch–Lysyanskaya (CL) Signatures](https://dl.acm.org/doi/10.5555/1766811.1766838): A Foundation for ZK Proof Systems
+
+Jan co-invented CL signatures, one of the most influential signature schemes for privacy-preserving credentials, anonymous authentication, zero-knowledge proofs of possession, and attribute-based credentials.
+
+CL signatures are widely used in systems requiring selective disclosure and unlinkability. They directly inspired numerous zk-friendly signature and credential protocols used today across Web3 and decentralized identity.
+
+### Breakthroughs in Secure Multi-Party Computation (MPC)
+
+Camenisch has helped develop efficient MPC protocols for distributed key generation, threshold signatures, verifiable randomness, and confidential computation on secret-shared inputs.
+
+These protocols are essential components for building decentralized systems that require trustless signing, private computation, or multi-operator coordination components that Rialo’s privacy layer relies on heavily.
+
+## Recognition at the Highest Levels of Computer Science and Cryptography
+
+With 30,000+ citations,[ dozens of highly influential papers](https://jan.camenisch.org/pubs/?utm_source=chatgpt.com), and more than 70 U.S. patents, Camenisch is among the most referenced cryptographers of his generation. This impact has earned him prestigious awards, including:
+
+- 2024 Levchin Prize for Real-World Cryptography
+Often considered the highest recognition in applied cryptography, awarded together with Anna Lysyanskaya for the development of efficient anonymous credential systems.
+
+- ACM Fellow (2018)
+One of the highest honors in computer science, recognizing extraordinary contributions that have fundamentally shaped the field.
+
+- Fellow of the IACR (2017)
+International Association for Cryptologic Research.
+
+- ACM SIGSAC Outstanding Innovation Award (2010)
+Awarded for outstanding theoretical breakthroughs in privacy-enhancing cryptography and leadership in bringing these innovations to real-world systems.[](https://jan.camenisch.org/awards/)
+
+[](https://jan.camenisch.org/awards/)[These awards](https://jan.camenisch.org/awards/) place Camenisch in the top tier of global cryptographers whose research has translated directly into practical, widely deployed privacy technologies.
+
+## Leadership at Dfinity: Scaling Cryptography for a Decentralized Compute Platform
+
+After his tenure at IBM, Camenisch served as Chief Technology Officer at Dfinity, where he led the cryptographic architecture of one of the most ambitious decentralized computing platforms ever created.
+
+At Dfinity, he worked on:
+
+- Non-interactive distributed key generation (NIDKG) to support rotating subnet keys
+- Secure randomness beacons used for leader election and sharding
+- TEE-inspired verification models that do not rely on trusted hardware
+- Architecting a horizontally and vertically scalable distributed system of blockchains
+- Leading a 160-person R&D team pushing the boundaries of scalable decentralized compute
+
+His work made Dfinity one of the earliest large-scale attempts to combine advanced cryptography with decentralized compute scheduling. It demonstrated that cryptographic protocols, when engineered correctly, can power high-performance, global-scale blockchain systems.
+
+## Why Privacy Is Essential for Web3 to Onboard the Masses
+
+Today’s IT infrastructure processes immense amounts of private data, yet breaches are accelerating, especially now with AI assistance. Cybercrime damages are expected to exceed $10 trillion in 2025, while cybersecurity spending lags far behind at only $200 billion. The core issue: the internet was never designed for confidential computation.
+
+Blockchains improved the security model, but their transparency creates a barrier.
+
+### Public-by-default systems cannot handle sensitive data or authenticate with Web2 services.
+
+They cannot safely process API keys, identity attributes, private state, or confidential business logic. This is one of the main reasons that Web3 has struggled to find mainstream adoption beyond DeFi.
+
+To bridge these worlds securely, decentralized systems need private, verifiable computation.
+
+## The Technology Stack for Private Decentralized Computation
+
+Privacy-enhancing technologies like MPC, FHE, and TEEs provide complementary strengths:
+
+- MPC enables distributed signing, randomness, and secure computation on small circuits
+- FHE supports computation directly on encrypted data, though it remains limited for large workloads
+- TEEs allow efficient confidential execution with hardware-backed attestation
+
+Individually, each has constraints. Together, they form the basis for REX, Rialo Extended Execution layer.
+
+## Rialo’s Breakthrough: A Privacy-Preserving Orchestration Layer
+
+Rialo has built the cryptographic orchestration layer required to coordinate REX and encrypted data across a decentralized network. This layer manages:
+
+- Independent operators running REX
+- Verification and certification of allowed programs
+- Secure routing of encrypted input data
+- Key refresh, re-encryption, and cryptographic policy enforcement
+- Attestation of correctness and integrity
+
+This architecture enables encrypted API keys and sensitive data to be used inside a TEE without ever being exposed. It allows decentralized applications to connect to Web2 services securely and privately.
+
+Additionally, we’ll be exploring what encryption should look like in a post-quantum world, as both hacking capabilities and security will be tested in ways they never have before.
+
+For the first time, developers can build real-world, authenticated, privacy-preserving automation on-chain.
+
+## Why Jan Camenisch Is Pivotal for Rialo
+
+The problems that Rialo is solving such as private, verifiable, decentralized computation align directly with core areas of Camenisch’s research career.
+
+His leadership will accelerate Rialo’s work across:
+
+- Privacy-preserving identity and authentication
+- Secure multiparty computation
+- Key management and cryptography for on-chain private computation
+- Zero-knowledge-friendly signature and credential schemes
+- Private API integrations
+- Cryptographic attestation and secure hardware protocols
+- Scalable confidential execution environments
+- Post-quantum cryptography
+
+“Privacy and verifiable automation are essential for Web3 to become part of the wider digital economy,” Camenisch said. “Rialo’s architecture is grounded in strong cryptography and is exactly what’s needed to connect Web3 and Web2 securely.”
+
+## A New Foundation for the Secure Internet
+
+By bringing privacy to decentralized systems for the first time, Rialo enables blockchains to break out of their current niche and operate as secure, mainstream infrastructure.
+
+Confidential computation unlocks entirely new categories of applications financial, social, operational, consumer, and enterprise that were previously impossible on blockchain.
+
+With Jan Camenisch joining, Rialo is positioned to define the cryptographic foundation for the next era of secure, private, interconnected digital systems.
+
+Tune in next Monday, December 15th, at 2 PM EST on The Rollup, as Jan and a special ZK guest will be expanding further on Rialo’s positioning within on-chain scalable privacy.

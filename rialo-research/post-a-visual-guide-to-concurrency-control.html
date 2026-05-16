@@ -1,0 +1,433 @@
+<!DOCTYPE html><!--  Last Published: Wed Apr 22 2026 18:17:36 GMT+0000 (Coordinated Universal Time)  -->
+<html data-wf-page="6883572e6ebf68cfe676dd63" data-wf-site="6883572e6ebf68cfe676dd65" lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Performance: Preconnect to external origins -->
+  <link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.amplitude.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://d3e54v103j8qbb.cloudfront.net">
+
+  <title>A Visual Guide to Concurrency Control | Rialo</title>
+  <meta content="Today, parallel execution is almost a default requirement for blockchains that want to increase throughput, optimize transaction costs, and reduce latency. It i" name="description">
+  <meta content="A Visual Guide to Concurrency Control" property="og:title">
+  <meta content="Today, parallel execution is almost a default requirement for blockchains that want to increase throughput, optimize transaction costs, and reduce latency. It i" property="og:description">
+  <meta content="" property="og:image">
+  <meta content="A Visual Guide to Concurrency Control" property="twitter:title">
+  <meta content="Today, parallel execution is almost a default requirement for blockchains that want to increase throughput, optimize transaction costs, and reduce latency. It i" property="twitter:description">
+  <meta content="" property="twitter:image">
+  <meta property="og:type" content="website">
+  <meta content="summary_large_image" name="twitter:card">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+  <link href="/css/components.css" rel="stylesheet" type="text/css">
+  <link href="/css/rialo-new.css" rel="stylesheet" type="text/css">
+  <style>html.w-mod-js:not(.w-mod-ix3) :is(.h1) {visibility: hidden !important;}</style>
+  <script type="text/javascript">!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);</script>
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/images/webclip.png" rel="apple-touch-icon">
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4BYH21VM69"></script>
+  <script type="text/javascript">window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('set', 'developer_id.dZGVlNj', true);gtag('js', new Date());gtag('config', 'G-4BYH21VM69');</script><!--  Finsweet Attributes  -->
+  <script async="" type="module" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes@2/attributes.js" fs-formsubmit=""></script>
+  <script src="https://cdn.amplitude.com/libs/analytics-browser-2.11.1-min.js.gz" defer></script>
+  <script src="https://cdn.amplitude.com/libs/plugin-session-replay-browser-1.8.0-min.js.gz" defer></script>
+  <script>window.amplitude.add(window.sessionReplay.plugin({sampleRate: 1}));window.amplitude.init('a972cd17c06d38df15393437e04eae5d', {"autocapture":{"elementInteractions":true}});</script>
+  <style>
+  [short] {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+  <style>
+  body {
+  font-variant-ligatures: none !important;
+  font-feature-settings: "liga" 0, "calt" 0 !important;
+}
+  /* Removes top/bottom/left/right margins from lists inside .text-blog */
+  .text-blog ul, 
+  .text-blog ol {
+    margin-bottom: 5px !important;
+    padding-left: 1.25rem; /* Ensures bullets/numbers don't clip off the screen */
+  }
+  /* Optional: Removes margins from the list items themselves for a tight look */
+  .text-blog li {
+    margin-bottom: 5px !important;
+  }
+  .text-blog h2 {
+  	margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  .content-link.active {
+     font-weight: bold
+  }
+</style>
+</head>
+<body class="body-blog-post">
+  <nav data-wf--nav--variant="no-badge" class="nav w-variant-4fe900d6-da43-706c-7dd7-ecf391bd5581">
+    <div aria-label="Home" class="logo">
+      <a href="/" class="logo w-inline-block"><img src="/images/rialo-logo.svg" loading="lazy" alt="Rialo Logo" class="logo-img"></a>
+      <a href="https://drive.google.com/uc?export=download&amp;id=1W-bNLBzhap3oa3CcVGHPrlK5ZlBhsyx7" class="download-assets w-inline-block">
+        <div class="download-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download-icon lucide-download">
+            <path d="M12 15V3"></path>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <path d="m7 10 5 5 5-5"></path>
+          </svg></div>
+        <div>Download Brand Assets</div>
+      </a>
+    </div>
+    <div class="main-nav w-variant-4fe900d6-da43-706c-7dd7-ecf391bd5581">
+      <a data-w-id="eab7c10d-e574-2589-3a26-c8144f91ca34" href="/" class="nav-link">HOME</a>
+      <a data-w-id="a94bba3e-5a93-c1c7-f7aa-14ecf0fd0ac5" href="/docs" class="nav-link">Docs</a>
+      <a href="/blog" data-w-id="d97bea76-ecc5-6ff6-f4d2-46f5be9760d3" class="nav-link">Blog</a>
+      <a href="http://learn.rialo.io" data-w-id="a252d1e6-69ca-7098-33aa-b54864718519" class="nav-link">Learn</a>
+      <a data-w-id="74fccc3a-9138-8c96-76e2-388f500177ee" href="/news" class="nav-link">News</a>
+    </div>
+    <div class="social-media-logos">
+      <a aria-label="Telegram Link" href="https://discord.gg/RialoProtocol" target="_blank" class="sm-link w-inline-block"><img src="/images/discord.svg" loading="lazy" width="24" alt=""></a>
+      <a aria-label="Telegram Link" href="https://t.me/rialoprotocol" target="_blank" class="sm-link w-inline-block"><img src="/images/telegram-logo.svg" loading="lazy" width="20" alt=""></a>
+      <a aria-label="X Link" href="https://x.com/RialoHQ" target="_blank" class="sm-link w-inline-block"><img src="/images/x-logo.svg" loading="lazy" width="18" alt=""></a>
+      <div data-w-id="eab7c10d-e574-2589-3a26-c8144f91ca41" data-is-ix2-target="1" class="mobile-nav-trigger" data-animation-type="lottie" data-src="/documents/rialo-menu.lottie" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="2" data-duration="0" data-ix2-initial-state="0"></div>
+    </div>
+  </nav>
+  <div class="waitlist-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="h3">Early Access</h2><img src="/images/close.svg" loading="lazy" data-w-id="64aa072e-0daa-205c-e15a-91a921fed9d1" alt="Close" class="close">
+      </div>
+      <div class="form-wrapper w-form">
+        <form method="post" fs-formsubmit-element="form" name="email-form" data-name="Email Form" action="https://assets.mailerlite.com/jsonp/1684260/forms/161153940968178828/subscribe" id="email-form" fs-formsubmit-enhance="true" class="form" data-wf-page-id="6883572e6ebf68cfe676dd63" data-wf-element-id="64aa072e-0daa-205c-e15a-91a921fed9d3">
+          <p>Get exclusive early access to Rialo and stay updated on our latest developments.<br></p>
+          <div><label for="fields[name]" class="label">Name</label><input class="input w-input" maxlength="256" name="fields[name]" data-name="fields[name]" placeholder="Enter your full name" type="text" id="fields[name]" required=""></div>
+          <div><label for="fields[email]" class="label">Email Address</label><input class="input w-input" maxlength="256" name="fields[email]" data-name="fields[email]" placeholder="Enter your email" type="email" id="fields[email]" required=""></div><input type="submit" data-wait="Please wait..." class="submit-button w-button" value=" join waitlist">
+        </form>
+        <div class="success w-form-done">
+          <div class="text-block">Your spot on the waitlist is confirmed. We&#x27;ll keep you posted with next steps and early access updates soon.</div>
+        </div>
+        <div class="w-form-fail">
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+    <div data-w-id="64aa072e-0daa-205c-e15a-91a921fed9e6" class="modal-bg"></div>
+  </div>
+  <figure data-wf--nav-background--variant="no-badge" class="main-nav-overlay w-variant-04f3bbb7-1d6e-8249-c6ab-51437e2924c8"></figure>
+  <div class="blog-deco-wrapper"><img src="/images/Vector-20.svg" loading="lazy" alt="" class="blog-deco"></div>
+  <div style="-webkit-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(210px, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="content-overview"></div>
+  <main class="update-content">
+    <h1 class="h1 fh">A Visual Guide to Concurrency Control</h1>
+    <div class="date">
+      <div>Published on</div>
+      <div>January 22, 2026</div>
+    </div>
+    
+    <div data-w-id="60293aea-98cd-9d0a-54b0-6fe0bc1398ac" style="color:rgb(0,0,0);background-color:rgba(0,0,0,0)" class="summary-button">
+      <div>Summary</div>
+      <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0)" class="dd-arrow w-embed"><svg width="100%" height="100%" viewbox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0.759766 0.650879L6.75977 7.65088L12.7598 0.650879" stroke="currentColor" stroke-width="2"></path>
+        </svg></div>
+    </div>
+    <!-- Audio Narration Player (injected by external script) -->
+    <link rel="stylesheet" href="https://eawosika.github.io/audio-narration/player.css">
+    <script src="https://eawosika.github.io/audio-narration/player.js"></script>
+    <div style="height:0px" class="summary-wrapper">
+      <div class="summary">
+        <p class="summary-text">Today, parallel execution is almost a default requirement for blockchains that want to increase throughput, optimize transaction costs, and reduce latency. It is no longer fashionable to design a blockchain that executes transactions sequentially (like Ethereum and other first-generation blockchains</p>
+      </div>
+    </div>
+    <div class="blog-content-section"><p>Today, parallel execution is almost a default requirement for blockchains that want to increase throughput, optimize transaction costs, and reduce latency. It is no longer fashionable to design a blockchain that executes transactions sequentially (like Ethereum and other first-generation blockchains), especially with recent hardware improvements favoring parallelism. </p><p>Rialo implements parallel execution for faster and cheaper transactions. However, when implementing parallel execution systems, we have to answer an important question: How do we process many transactions in parallel while making sure execution produces correct results? The sequential execution model is slow but always correct – it makes sense to adopt another approach to executing transactions only if it guarantees the same level of correctness. </p><p>‍</p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725d5db1e9c3ef1d18df86_185.avif" loading="lazy"></div></figure><p>Concurrency control is how chains that implement parallel execution maintain correctness and preserve safety. Different chains adopt varying approaches to concurrency control, and this decision – although oblivious to users and developers – has a tangible impact on how a chain performs and affects the user experience in many ways. </p><p>Transactions failing repeatedly for no reason? Users seeing long delays in execution? Chain performance slowing down whenever onchain activity is high? These are often signs that a chain is running into the limits of concurrency control and experiencing the tradeoffs of parallel execution. But, without understanding the basics of parallel execution, it can be hard for anyone who’s not a protocol researcher to recognize and understand these issues. </p><p>We’ve built a dashboard to visualize concurrency control that you can access at<a href="http://concurrency-control.rialo.io/"> </a><a href="https://concurrency-control.learn.rialo.io/">https://concurrency-control.learn.rialo.io/</a> It shows you various approaches to concurrency control–and by extension, parallel execution–illustrates the tradeoffs of each approach. You can play around with this demo to observe how parallel execution behaves under different conditions. In this blog post, we’ll provide a useful overview of parallel execution, concurrency control, and everything else you need to understand to take full advantage of the visualizer. </p><h2>Parallel vs. sequential execution: A brief introduction </h2><p>To use a blockchain, you must submit transactions. A transaction instructs the chain to do something: send tokens, check an account’s balance, call a smart contract, or create a new address. The blockchain can process transactions <em>sequentially</em> or <em>concurrently</em> (i.e., in parallel). Sequential execution requires executing transactions one after the other, often in their order of arrival. Parallel execution executes multiple transactions at the same time without forcing transactions to wait. </p><p>Sequential execution preserves correctness, but often artificially limits throughput; execution must follow a single thread and cannot take advantage of newer CPU designs that distribute work across multiple threads for faster performance (parallelism). Parallel execution improves performance by spreading the work of processing transactions across multiple threads on the same machine–cores on a CPU, if you will–but it introduces <strong>conflicts </strong>that make execution produce incorrect outcomes. </p><p>We’ll illustrate the problem with a quick example:</p><p>Imagine an account has a balance of $100. Two transactions (A and B) arrive at the same time with different instructions targeting the same account:</p><ul role="list"><li>Transaction A subtracts $30</li><li>Transaction B adds $50</li></ul><p>Each transaction needs to: (a) Check the account balance, (b) Update the balance after executing. Checking the account balance is a <strong>read </strong>operation and doesn’t change the account’s state. Updating the account balance is a <strong>write </strong>operation and changes the account’s state. </p><p>“State” is the snapshot of an account at a point in time, or, simply, what we “know” about the account at that point. It includes things like an account’s (current) owner and total balance–the $100 balance is part of the account’s state in this example. By reducing or increasing the balance, we have changed the state (merely checking the balance doesn’t alter the state). </p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725d7067bd290384b83dc5_190.avif" loading="lazy"></div></figure><p>The transactions execute differently under sequential and parallel execution modes:</p><h4>Sequential execution (safe) </h4><p>Transactions are executed one after the other. Transaction A might execute before B: It reads the balance ($100), subtracts $30, and updates the balance to $70. Transaction B reads the balance ($70), adds $50, and writes $120 as the new balance. Or transaction B might execute before transaction A: it reads the balance ($100), adds $50, and updates the balance to $150. Transaction A reads the current balance ($150), subtracts $30, and writes $120 as the new balance. </p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725d7e446ba08c0f27b52e_194.avif" loading="lazy"></div></figure><p>No matter the order of execution, the final result is always $120. We’ll see why this property is important and why it’s hard to enforce when parallel execution is used instead of sequential execution.</p><h4>Parallel execution (naive example) </h4><p>Transactions are executed concurrently, but commits (i.e., writing new states) are ordered–the state committed by the last transaction takes precedence over states committed by earlier transactions. The transactions, A and B, start together and both read an initial balance of $100. Here’s what happens depending on how and when the transactions update the account state:</p><ul role="list"><li>Transaction A computes $100 - $30 and commits $70. Transaction B simultaneously computes $100 + $50 and later commits $150, overwriting the old value and leaving $150 as the final balance. </li><li>Transaction B computes $100 + $50 and commits $150. Transaction A simultaneously computes $100 - $30 and later commits $70, overwriting the old value and leaving the final balance as $70. </li></ul><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725d8dd8b0c51e2245f3aa_203.avif" loading="lazy"></div></figure><p>Both scenarios result in incorrect updates to the account’s balance. The first (final balance: $150) prints additional money, while the second (final balance: $70) destroys money. More importantly, the results are not the same as those we got by executing the transactions in strict sequential order. This violates an important property of parallel execution–that the outcome of concurrently executing a set of transactions cannot be different from the outcome of sequentially executing the same transactions. </p><p>This is where <strong>conflicts </strong>enter the picture. </p><h3>Handling conflicts in parallel execution </h3><p>The problem in the second example is that the two transactions access the same account, and each one tries to update the state as soon as execution completes. It creates what we call a <strong>conflict</strong>. A conflict occurs when two transactions touch the same account, and the correctness of execution depends on when transactions accessed the (shared) state. </p><p>The naive parallel execution example produced incorrect results because the transactions read state (checked the balance) at the same time, but wrote state (changed the balance) at different times. Of course, this is the system working as intended–parallel execution usually allows multiple transactions to simultaneously read an account state but restricts updates to account state to one transaction at a time. However, this arrangement creates issues for safe execution. </p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725d99f3fbf268b7685ac4_206.avif" loading="lazy"></div></figure><p>If two transactions can read the same initial state, but one transaction changes the state while the other transaction is still processing, the old state–and any results based on it–becomes invalid. In the first parallel execution scenario, Transaction A and Transaction B both read $100 as the initial balance, but Transaction A updated the balance to $70. Transaction B executed the operation with the old balance ($100), which caused it to update the account balance with the wrong result ($150). </p><p>In the second scenario, Transaction A and Transaction B read $100 as the initial balance, but Transaction B updated the balance to $150 while Transaction A was still processing. Transaction A executed the old state ($100), which led to it updating the account balance with the wrong value ($70). In both cases, a transaction was executed with stale data and published an update that did not match the account’s latest state or reflect the outcome of serially executing the transactions. </p><p>The problem could be solved if we revised state access to reflect transaction conflicts and changed the execution ordering to prevent transactions from reading and executing based on stale data. The ideal transaction order would be like this:</p><ul role="list"><li>Transaction A reads the account balance and<em> </em>commits a new value before Transaction B reads and writes the same account, or </li><li>Transaction B reads the account balance and commits a new value before Transaction A reads and writes the account </li></ul><p>This new execution pattern produces the correct results. In the first scenario, Transaction A reads $100 as the balance and writes back $70; Transaction B reads $70 as the balance and writes $120 as the new balance. In the second scenario, Transaction B reads $100 as the balance and writes back $150; Transaction A reads the new balance ($150) and writes $120 as the final balance. </p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725dbe03a17c9eb948496c_Frame%202147257195.avif" loading="lazy"></div></figure><p>You’ll notice that the result of executing the transactions now looks like they were executed sequentially. In fact, the transactions <em>are </em>executed sequentially in this example. This is where concurrency control really enters the picture–what we did in this example (enforcing sequential access to state for both reads and writes) is one way of managing conflicts that could impact the correctness of parallel execution. We’ll explore two approaches to concurrency control in the next section. </p><h2>Pessimistic execution vs. optimistic execution</h2><p>There are two primary approaches to concurrency control: <strong>pessimistic concurrency control</strong> (PCC) and <strong>optimistic concurrency control</strong> (OCC). We’ll use “pessimistic execution” and “optimistic execution” for simplicity (the visualization similarly uses simpler names, such as Pessimistic Mode for pessimistic concurrency control and Optimistic Mode for optimistic concurrency control). Both are techniques for preserving correctness during parallel execution and making sure that they satisfy the <a href="https://www.geeksforgeeks.org/dbms/serializability-in-dbms/">serializability</a> constraint. </p><p>Pessimistic concurrency control and optimistic concurrency control manage conflicts differently. Pessimistic systems manage conflicts upfront and try to prevent them before execution. Optimistic systems allow execution to proceed without delay and try to resolve conflicts after execution.</p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725de0c6e1b78523c08726_210.avif" loading="lazy"></div></figure><p>The result is always the same, but both systems pay the cost of uncertainty (the uncertainty of not knowing if transactions will conflict) differently. Pessimistic execution systems pay this cost upfront (before execution) in the form of delays–a transaction might be delayed if its execution could conflict with another transaction. To reason about potential conflicts, pessimistic execution requires transactions to declare what accounts they touch and whether they’re reading state or writing state (or both), and uses that information to schedule execution. To use a previous example:</p><ul role="list"><li>Transaction A and Transaction B both declare that they will read and write to the same account. This creates a conflict and means the transactions cannot execute concurrently. Either transaction can go first as long as execution is sequential. </li><li>Transaction A goes first, reading an initial balance of $100 and writing a new balance of $70. Transaction B later reads a balance of $70 and writes a new balance of $120 ($70 + $30). </li><li>Transaction B goes first, reading an initial balance of $100 and writing a new balance of $150. Transaction A later reads a balance of $150 and writes a new balance of $120 ($150 - $30).</li></ul><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725dfd763dbd4559f013df_214.avif" loading="lazy"></div></figure><p>Optimistic execution systems pay the cost after execution in the form of retries–a transaction that reads stale data and produces a conflicting result has to be re-executed with the correct state. Transactions do not declare state access upfront and are always executed concurrently, but the results are validated after execution and rerun if they turn out to be invalid. To use a previous example: </p><ul role="list"><li>Transaction A and B both read $100, but the balance reads $150 by the time Transaction A finishes (because Transaction B committed earlier). Transaction A notices the state change has changed, discards the old result, and re-executes with the new balance instead of overwriting it. The final result is $120 because Transaction A calculates $150 - $30 instead of $100 - $30.</li><li>Transaction A and B both read $100, but the balance reads $70 by the time Transaction B is done (because Transaction A committed earlier). Transaction B notices the new state, discards the previous result, and re-executes with the updated balance. The final result is $120 because Transaction B calculates $70 + $50 instead of $100 + $50. </li></ul><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725e1163b08f82bd89bf8f_215.avif" loading="lazy"></div></figure><p>Pessimistic execution and optimistic execution both arrive at the correct result, but use different methods and have distinct tradeoffs. Pessimistic systems assume conflicts are likely and preemptively restrict execution (e.g., delaying transactions) to minimize conflicts. This results in more delays, especially when transactions touch the same state. In the visualization, this shows up as more transactions entering <strong>Waiting </strong>mode–those transactions remain pending until the system believes it can execute them without conflicts appearing. </p><p>Optimistic systems assume conflicts are rare but still validate results after execution to resolve any observed conflicts. This results in more retries, especially when many transactions access the same state. In the visualization, this shows up as more transactions entering <strong>Rerunning </strong>mode–those transactions have to be rerun because changes in state made their original execution invalid. </p><p>Below is a summary of the features of both concurrency control approaches:</p><h3>Pessimistic execution at a glance</h3><ul role="list"><li>Transactions declare all accounts that they read and or write before execution starts.</li><li>A transaction that (potentially) conflicts with another transaction must wait for the latter to complete.</li><li>All transactions execute concurrently if no conflicts are observed before execution. </li><li>Some (or all) transactions are executed sequentially if conflicts are observed prior to execution. </li><li>Conflicting transactions are grouped into conflict-free batches. Transactions within a batch execute concurrently, but the batches themselves are executed in a sequence. &nbsp;</li></ul><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725e273b0dd48f1192d8bb_Frame%202147257196.avif" loading="lazy"></div></figure><h3>Optimistic execution at a glance</h3><ul role="list"><li>All transactions are always executed in parallel. </li><li>No transaction is delayed. </li><li>No requirements for transactions to declare what accounts they touch during execution </li><li>Transactions commit updates in sequential order. </li><li>Transaction results are validated before commitment–transactions that read stale data are retried. </li></ul><p>With the basics of optimistic execution and pessimistic execution fully established, we can now go into how to use the visualization. The next section provides a quick walkthrough and provides concise and useful tips on making the most out of the tool as you explore concurrency control visually. </p><figure style="max-width:1920pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69725e3a5dd97bd21d9594d8_Frame%202147257197.avif" loading="lazy"></div></figure><h2>How to visualize concurrency control in six steps</h2><h3>1. Select an execution mode </h3><p>Select <strong>Optimistic Mode</strong> if you want transactions to execute immediately and rerun when they fail validation. Select <strong>Pessimistic Mode</strong> if you want to minimize conflicts and want transactions to execute correctly on the first try. &nbsp;</p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69582d2dddfb8ef24ac0da1a_unnamed.gif" loading="lazy"></div></figure><h3>2. Customize the workload</h3><p>a. Use the <strong>“Transactions”</strong> toggle to adjust the number of transactions (T<sub>0</sub>, T<sub>1</sub>, T<strong><sub>3</sub></strong>…) for each simulation. More transactions increase potential conflicts, especially when a run includes fewer accounts.</p><figure style="max-width:1280px" class="w-richtext-align-center w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69582d44f1d5319060fcc771_unnamed-2.gif" loading="lazy"></div></figure><p>b. Use the <strong>“Accounts”</strong> toggle to adjust the number of accounts (Acc<sub>0</sub>, Acc<sub>1</sub>, Acc<sub>2</sub>…) in each run. Fewer accounts (and more transactions) result in more competition for access to state, especially when a run includes more transactions. </p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69582d76a010d3eaa3a34b35_unnamed-3.gif" loading="lazy"></div></figure><p>c. Click <strong>“Transaction Conflicts”</strong> to choose which accounts transactions read or write during execution and adjust the number of conflicting transactions. Adjust transaction access patterns to: </p><ul role="list"><li>Create read-heavy workloads (transactions read state more often)</li></ul><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69582e686e3432c49893f00f_unnamed-4.gif" loading="lazy"></div></figure><ul role="list"><li>Create write-heavy workloads (transactions write state more often)</li></ul><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69583eb3b883842002d2d6ab_unnamed-5.gif" loading="lazy"></div></figure><ul role="list"><li>Create mixed workloads that have read operations and write operations in equal proportions (transactions reading and writing state more often)</li></ul><figure style="max-width:1280px" class="w-richtext-align-center w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69583f043b7f888638da4a14_unnamed-6.gif" loading="lazy"></div></figure><p>‍</p><h3>3. Modify exclusive access settings </h3><p>Turning exclusive access ON means any account shared between two transactions will cause a conflict (even for reads). Exclusive Access ON prevents multiple transactions from reading the same account and reduces concurrency, especially in pessimistic mode. Turning exclusive access OFF means multiple transactions can read the same account, but a conflict is registered if both transactions read the same account and write to it during execution. Exclusive Access OFF makes state access less conservative and increases parallelism, especially in read-heavy workloads.</p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69583f33c27fe5d877c10567_unnamed-7.gif" loading="lazy"></div></figure><h3>4. Start the simulation </h3><p>Press <strong>Start</strong> to run transactions. The transactions (T) orbit the accounts (Acc) in the center. Arrows connect transactions to accounts currently being accessed during execution. Multiple arrows pointing to an account mean more than one transaction is accessing that account, either for a read or write operation. </p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69583f49477a6b1c83017b07_unnamed-8.gif" loading="lazy"></div></figure><h3>5. Read the transaction states </h3><p>Transactions can be in the following states during execution</p><ul role="list"><li><strong>Waiting</strong> (gray): Transaction is waiting to execute (pessimistic mode) </li><li><strong>Executing</strong> (blue): Transaction is executed </li><li><strong>Rerunning</strong> (orange): Transaction is being re-executed (optimistic mode) </li><li><strong>Completed</strong> (white): Transaction is complete</li></ul><p>‍</p><p><strong>Here’s an example of a simulation that uses pessimistic mode–notice the various states that transactions occupy during execution:</strong></p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/69583fb3162e9c0104d2fcbe_unnamed-9.gif" loading="lazy"></div></figure><p><strong>Here’s an example of a simulation that uses optimistic mode–notice the various states that transactions occupy during execution:</strong></p><figure style="max-width:1280pxpx" class="w-richtext-align-fullwidth w-richtext-figure-type-image"><div><img alt="" src="https://cdn.prod.website-files.com/6883572e6ebf68cfe676dd77/695843ff9850b96d92ab334f_unnamed-11.gif" loading="lazy"></div></figure><h3>6. Experiment with different scenarios </h3><p>Press <strong>“Reset”</strong> to start with a new set of parameters for the simulation. Play with the controls to observe how parallel execution behaves under different conditions with different concurrency control strategies employed. This will give you a good idea of how parallel execution works in a blockchain environment. </p><p>Make conflicts more visible–increase transactions, decrease accounts, or add more transactions that touch similar accounts. Or decrease conflicts by reducing transactions, increasing accounts, and removing transactions with overlapping state accesses. Toggle exclusive access mode on and off to see how conservative access affects parallelism. Run the same transaction set in optimistic mode and pessimistic mode to understand the tradeoffs of both approaches. </p><h2>Conclusion</h2><p>We didn't build the visualization to show which model is “better”. We did it to show how different parallel execution modes approach concurrency control and solve the problem of preserving the same security guarantees that sequential execution provides. With this article as a guide, you can observe how concurrency control choices lead to different performance patterns and tradeoffs–even as they all achieve the same goal of secure and reliable execution. </p><p>If you want an even deeper and more technical understanding of concurrency control, we are preparing a comprehensive deep dive that explores the topic in more depth and illuminates the underlying concepts behind each concurrency control design. For now, you can explore the demo and build familiarity with parallel execution. In the future, we will explore how Rialo uses optimistic execution to provide a high-performance execution environment for applications and guarantee the best possible experience for users. </p><p>The dashboard is live at <a href="http://concurrency-control.rialo.io/">concurrency-control.rialo.io</a> and will remain up for the duration of the demo. Have any questions or need clarification related to the visualizer? Don’t hesitate to reach out. We’d love to help developers build easily on Rialo and are happy to help you understand how to leverage Rialo’s innovative execution approach. </p><h2>Appendix: What to expect when visualizing concurrency control </h2><p>This part of the article is for those who want more information on what to expect when running the simulation under different conditions. We’ll go over what you should expect when interacting with the controls and how you should interpret the results you get. This should help you build an intuitive mental model for how concurrency control choices affect execution and UX.</p><h3>Execution modes </h3><h4>Pessimistic Mode </h4><ul role="list"><li>Prevents conflicts upfront </li><li>More transactions waiting </li><li>Less wasted computation </li></ul><p>In pessimistic mode, you’re likely to see more transactions enter a Waiting state, especially when conflicts are possible. It’s because parallel execution enforces correct results by blocking conflicting transactions before execution. </p><p>When transactions are competing for access to the same accounts, pessimistic mode will provide better performance because fewer transactions fail. Conflicting transactions execute sequentially, so transactions never have to be re-executed.</p><h4>Optimistic Mode </h4><ul role="list"><li>Allows conflicts to happen </li><li>More transactions retried </li><li>Maximum concurrency </li></ul><p>In optimistic mode, you’re likely to see more transactions in a Rerunning state, especially if multiple transactions conflict. It’s because optimistic execution avoids delays (unlike pessimistic execution) but has to enforce correctness by validating transactions after the fact and rerunning conflicting transactions that produce invalid results. </p><p>When conflicts are rare, such as when a workload is read-heavy (reads create fewer conflicts) or transactions write separate accounts, optimistic mode performs better because all transactions execute concurrently. Fewer conflicts mean fewer retries, so execution can maximize the advantage of parallelism without wasting computational work. </p><h3>Exclusive Access settings </h3><h4>Exclusive Access ON</h4><ul role="list"><li>Shared account access creates conflicts (even reads) </li><li>More transactions wait </li><li>Concurrency reduces </li></ul><p>Exclusive Access ON simulates parallel execution environments, particularly those with pessimistic concurrency control, that cannot distinguish between reads and writes. This mode means transactions get exclusive access to an account, no matter what the transaction plans to do. </p><p>‍</p><p>Consider the previous example (Transaction A and Transaction B updating an account). Now, add a new transaction (Transaction C) that only <strong>reads</strong> the account without updating it. Logically, Transaction C should be able to execute concurrently because its execution doesn’t conflict with A or B–it can read the account’s balance at any time and still be correct. </p><p>But if the scheduler that accepts transactions and schedules them for execution cannot distinguish reads and writes, Transaction C may have to wait, depending on which transaction secures exclusive access to the account and executes first. Transaction C will have to execute in sequential mode, even though it’s only reading a shared account. This reduces performance, especially for read-heavy workloads, because reads, which don’t conflict with writes, are delayed. </p><h4>Exclusive Access OFF</h4><ul role="list"><li>Read operations can overlap </li><li>Fewer conflicts and more transactions executed immediately </li><li>Concurrency improves </li></ul><p>In this mode, transactions are free to read the same account, and transactions don’t get exclusive access. Using the same example from above, transaction C can execute concurrently with Transaction A and Transaction B and read the account balance. Correctness is guaranteed because Transaction C is read-only and doesn’t update the balance (Transactions A and B both update the balance, which is why they cannot read the balance at the same time). </p><p>Turning exclusive access off improves performance, especially in read-heavy workloads. The performance boost is mostly limited to pessimistic mode because optimistic mode doesn’t have a notion of exclusive access and always permits maximum parallel execution and concurrent state access. </p><h4>Transaction count </h4><p>Increasing the transaction count means the system must try to process more transactions concurrently, which increases potential conflicts. However, this depends on factors like how transactions interact with accounts, the execution mode used, exclusive access settings, and the number of accounts shared between accounts. &nbsp;</p><p><strong>In pessimistic mode </strong></p><ul role="list"><li>If transactions access the same accounts or Exclusive Access is ON: <br><ul role="list"><li>More sequential execution </li><li>More transactions are in Waiting mode</li></ul></li><li>If more transactions separate accounts or Exclusive Access is OFF: <br><ul role="list"><li>More concurrent execution </li><li>More transactions execute immediately </li></ul></li></ul><p><strong>In optimistic mode </strong></p><ul role="list"><li>If conflicts are limited: <br><ul role="list"><li>Transactions executed at maximum concurrency </li><li>Fewer transaction retries </li></ul></li><li>If conflicts are widespread &nbsp;<br><ul role="list"><li>Transactions are still executed at maximum concurrency, but more computational work is wasted. </li><li>More transaction retries </li></ul></li></ul><h3>No. of accounts </h3><p>Reducing the number of accounts (while keeping the transaction count constant or higher) means more transactions are forced to access the same state. This can increase conflicts and affect parallelism, but it depends on factors like how transactions access state, what execution mode is used, and exclusive access settings. </p><h4>1. Low number of accounts + mostly writes &nbsp;</h4><p>This combination greatly increases conflicts because more write operations overlap between accounts, and writing to the same account <em>always </em>creates a conflict. However, the behavior can slightly change depending on the execution mode:</p><p><strong>In pessimistic mode:</strong></p><ul role="list"><li>High delays (more transactions in Waiting mode) </li><li>Concurrency is limited (more transactions are executed sequentially, and spare computational resources are utilized less)</li><li>Fewer runs due to few failures </li></ul><p><strong>In optimistic mode:</strong></p><ul role="list"><li>Low delays (transactions execute immediately) </li><li>More retries (more transactions in &nbsp;Rerunning mode) </li><li>Higher concurrency (maximum parallel execution and greater utilization of computational capacity) </li><li>More computation runs due to more failed transactions </li></ul><h4>2. Low number of accounts + mostly reads </h4><p>This combination reduces conflicts in theory because reads are less likely to create a conflict. However, this changes with the execution mode and chosen exclusive access setting. </p><p><strong>With Exclusive Access ON:</strong></p><ul role="list"><li>Reads block each other</li><li>Transactions are increasingly delayed</li><li>Concurrency reduces</li><li>Pessimistic mode performs slightly worse </li></ul><p><strong>With Exclusive Access OFF:</strong></p><ul role="list"><li>Read operations overlap</li><li>More transactions run immediately</li><li>Concurrency increases</li><li>Optimistic mode performs well </li></ul><p>To summarize: The number of accounts determines how much state is available to transactions, but a smaller set of accounts doesn’t automatically mean more conflicts. That depends on state access patterns, parallel execution modes, and policy on shared reads. The worst-case scenario is the combination of a small number of accounts with many transactions that frequently write new state and/or exclusive access settings. This increases competition for accessing state and forces more sequential execution (pessimistic mode) or more transaction retries (optimistic mode) to preserve safety. </p><h3>Transaction conflicts </h3><p>You control which accounts transactions access during execution and how they interact with those accounts by using Transaction Conflicts. It’s possible to create read-heavy workloads and write-heavy workloads (or a mix). These workloads have a different relationship with conflicts and behave differently when combined with varying execution modes and exclusive access settings. </p><h4>Read-heavy workloads </h4><p>In a read-heavy workload, more transactions read state (often from the same accounts), and few transactions write state. Running read-heavy workloads with different exclusive access settings and concurrency control policies produces different results. </p><p><strong>With Exclusive Access OFF and optimistic mode selected:</strong></p><ul role="list"><li>Accounts are read by multiple accounts simultaneously </li><li>Many transactions are processed in parallel </li><li>Very little Waiting or Rerunning </li><li>Maximum utilization of computational resources </li><li>Optimistic mode performs well </li></ul><p><strong>With Exclusive Access ON and pessimistic mode selected:</strong></p><ul role="list"><li>Accounts are read by one transaction at a time</li><li>More delays during execution </li><li>Limited concurrency and less utilization of computational resources </li><li>Pessimistic mode performs poorly </li></ul><h4>Write-heavy workloads </h4><p>In a write-heavy workload, more transactions write state to the same accounts, and a few transactions read state. Write-heavy workloads have different execution patterns when processed with alternative concurrency control techniques.</p><p><strong>In pessimistic mode:</strong></p><ul role="list"><li>More transactions in Waiting </li><li>Fewer or zero retries </li><li>Limited concurrency, but computation is efficient because fewer transactions are retried </li><li>More transactions executed sequentially </li></ul><p><strong>In optimistic mode:</strong></p><ul role="list"><li>More transactions in Rerunning </li><li>Higher number of failed transactions </li><li>Computational capacity is utilized more, but likely offset by increased re-execution of failed transactions. </li></ul><h3>Putting it all together </h3><p>Reads don’t inherently conflict, except when two transactions reading an account expect to write a new state (read-read operations don’t conflict, but read-write operations do). Read-read operations can, however, conflict when the execution model requires exclusive access for reads (i.e., treating reads and writes equally). Permitting shared reads unlocks opportunities for higher concurrency, particularly for optimistic systems that maximize parallelism. Forcing reads to behave like writes that require exclusive access to an account means simple account checks (like Transaction C from the earlier example) are delayed unnecessarily, and concurrency is reduced. </p><p>Writes create conflicts because they invalidate other transactions’ reads and can lead to incorrect results. Pessimistic systems preemptively stall these conflicts by blocking parallel execution of transactions that write to the same shared accounts. Optimistic systems allow conflicts to happen, but fix them later by retrying transactions that fail because of invalid read operations. Both systems achieve correctness and enforce serializability (the property that parallel execution must produce an outcome equivalent to executing a similar set of transactions in sequential order). They just force protocol designers to accept different tradeoffs. </p><p>‍</p></div>
+    <div class="blog-content-section"></div>
+  </main>
+  <div class="next-posts">
+    <h2 animate="" class="h2 blue">Latest Updates</h2>
+    <div class="updates-wrapper w-dyn-list">
+      <div role="list" class="updates w-dyn-items">
+        <div role="listitem" class="update-item w-dyn-item">
+          <a data-w-id="62b75a91-8c85-1601-4f63-f40dbdc484d4" style="color:rgb(232,227,213)" href="#" class="update-link w-inline-block">
+            <h3 class="h3 w-dyn-bind-empty"></h3>
+            <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)" class="update-bg"></div>
+            <div class="updates-summary">
+              <p class="w-dyn-bind-empty"></p>
+              <div class="arrow-icon w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right-icon lucide-arrow-up-right">
+                  <path d="M7 7h10v10"></path>
+                  <path d="M7 17 17 7"></path>
+                </svg></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="w-dyn-empty">
+        <div>No items found.</div>
+      </div>
+    </div>
+  </div>
+  <footer data-wf--footer--variant="dark" class="footer">
+    <div class="footer-inner"><img src="/images/rialo-logo.svg" loading="lazy" alt="Rialo Logo" class="logo-img">
+      <div class="footer-links">
+        <a href="https://jobs.ashbyhq.com/subzero" target="_blank" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Careers</a>
+        <a href="/privacy-policy" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Privacy Policy</a>
+        <a href="/terms-of-service" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Terms of use</a>
+        <a href="/brand-assets" class="footer-link w-variant-f98bd58d-4d0e-5cb9-cfc2-9d058be69d94">Brand</a>
+      </div>
+    </div>
+  </footer>
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6883572e6ebf68cfe676dd65" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="/js/rialo-new.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/ScrollSmoother.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js" defer type="text/javascript"></script>
+  <script src="https://cdn.prod.website-files.com/gsap/3.15.0/Flip.min.js" defer type="text/javascript"></script>
+  <script type="text/javascript">gsap.registerPlugin(ScrollTrigger,ScrollSmoother,SplitText,Flip);</script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    ScrollTrigger.matchMedia({
+        "(min-width: 768px)": function () {
+            const animatedElements = document.querySelectorAll('[animate]');
+            animatedElements.forEach(element => {
+                let split = new SplitText(element, { type: "chars, words", smartWrap: true });
+                let chars = split.chars;
+                gsap.from(chars, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        end: "bottom 60%",
+                        scrub: true
+                    },
+                    opacity: 0.1,
+                    stagger: 0.1
+                });
+            });
+            const animatedTopElements = document.querySelectorAll('[animate-top]');
+            animatedTopElements.forEach(element => {
+                let split = new SplitText(element, { type: "chars, words", smartWrap: true });
+                let chars = split.chars;
+                gsap.from(chars, {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 90%",
+                        end: "bottom 70%",
+                        scrub: true
+                    },
+                    opacity: 0.1,
+                    stagger: 0.1
+                });
+            });
+        }
+    });
+});
+    gsap.from(".team-logo", {
+      opacity: 0,
+      y: 50,
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: ".team-grid",
+        start: "top 80%",
+        end: "bottom 60%",
+        scrub: true
+      }
+    });
+</script>
+  <script>
+        class ScrambleText {
+            constructor(element) {
+                this.element = element;
+                this.originalText = element.textContent;
+                this.chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
+                this.isAnimating = false;
+                this.init();
+            }
+            init() {
+                this.element.addEventListener('mouseenter', () => this.scramble());
+                this.element.addEventListener('mouseleave', () => this.restore());
+            }
+            getRandomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+            scramble() {
+                if (this.isAnimating) return;
+                this.isAnimating = true;
+                const textLength = this.originalText.length;
+                const scrambleSteps = 8;
+                const stepDuration = 0.08;
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        this.isAnimating = false;
+                    }
+                });
+                for (let i = 0; i < scrambleSteps; i++) {
+                    tl.to(this.element, {
+                        duration: stepDuration,
+                        ease: "none",
+                        onUpdate: () => {
+                            let scrambledText = '';
+                            for (let j = 0; j < textLength; j++) {
+                                if (i < scrambleSteps / 2) {
+                                    scrambledText += this.getRandomChar();
+                                } else {
+                                    const revealProgress = (i - scrambleSteps / 2) / (scrambleSteps / 2);
+                                    const revealIndex = Math.floor(revealProgress * textLength);
+                                    if (j < revealIndex) {
+                                        scrambledText += this.originalText[j];
+                                    } else {
+                                        scrambledText += this.getRandomChar();
+                                    }
+                                }
+                            }
+                            this.element.textContent = scrambledText;
+                        }
+                    });
+                }
+                tl.to(this.element, {
+                    duration: 0.1,
+                    ease: "none",
+                    onUpdate: () => {
+                        this.element.textContent = this.originalText;
+                    }
+                });
+            }
+            restore() {
+                if (!this.isAnimating) return;
+                gsap.killTweensOf(this.element);
+                const currentText = this.element.textContent;
+                const steps = 4;
+                const stepDuration = 0.06;
+                const tl = gsap.timeline({
+                    onComplete: () => {
+                        this.element.textContent = this.originalText;
+                        this.isAnimating = false;
+                    }
+                });
+                for (let i = 0; i < steps; i++) {
+                    tl.to(this.element, {
+                        duration: stepDuration,
+                        ease: "none",
+                        onUpdate: () => {
+                            const progress = (i + 1) / steps;
+                            const revealCount = Math.floor(progress * this.originalText.length);
+                            let restoredText = '';
+                            for (let j = 0; j < this.originalText.length; j++) {
+                                if (j < revealCount) {
+                                    restoredText += this.originalText[j];
+                                } else {
+                                    restoredText += this.getRandomChar();
+                                }
+                            }
+                            this.element.textContent = restoredText;
+                        }
+                    });
+                }
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                new ScrambleText(link);
+            });
+        });
+    </script>
+  <script>
+  $(document).ready(function () {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    if (!isTouchDevice) {
+      $('.logo').on('contextmenu', function (e) {
+        e.preventDefault()
+        $('.download-assets').css({
+          opacity: '1',
+          display: 'flex'
+        })
+      })
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('.download-assets, .logo').length) {
+          $('.download-assets').css({
+            opacity: '0',
+            display: 'none'
+          })
+        }
+      })
+    }
+  })
+</script>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.blog-content-section').forEach(section => {
+    const id = section.id;
+    if (id) {
+      section.id = id.trim().toLowerCase().replace(/\s+/g, '_');
+    }
+  });
+  const sections = document.querySelectorAll('.blog-content-section');
+  const links = document.querySelectorAll('.content-link');
+  let scrolling = false;
+  let scrollTimeout;
+  const setActiveLink = () => {
+    if (scrolling) return;
+    let current = null;
+    sections.forEach(section => {
+      const top = section.getBoundingClientRect().top;
+      if (top <= 0) {
+        current = section.id;
+      }
+    });
+    links.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('data-scroll') === current);
+    });
+  };
+  document.querySelectorAll('.content-link').forEach(link => {
+    const val = link.getAttribute('data-scroll');
+    if (val) {
+      link.setAttribute('data-scroll', val.trim().toLowerCase().replace(/\s+/g, '_'));
+    }
+    link.addEventListener('click', () => {
+      const targetId = link.getAttribute('data-scroll');
+      const target = document.getElementById(targetId);
+      if (target) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        scrolling = true;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => { scrolling = false; }, 1000);
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+  window.addEventListener('scroll', setActiveLink);
+  setActiveLink();
+});
+</script>
+  <link rel="stylesheet" href="https://eawosika.github.io/rialo-readerbot/readerbot.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://eawosika.github.io/rialo-readerbot/readerbot.js" defer=""></script>
+  <script src="https://eawosika.github.io/rialo-tooltip/tooltip.js" defer=""></script>
+  <button id="openBtn">Explore this article with AI ✨</button>
+  <div id="miniCard">
+    <div class="mini-kicker">Keep reading with AI ✨</div>
+    <button id="miniBtn">Open Readerbot →</button>
+  </div>
+  <button id="mobileAskBtn">
+    <span class="ask-ai-label">Ask AI</span>
+    <span class="ask-ai-sparkle">✨</span>
+  </button>
+  <aside id="panel">
+    <div id="panelHeader">
+      <div id="panelTitle">Rialo Readerbot 🤖</div>
+      <div id="panelActions">
+        <div class="window-btn-group">
+          <button id="minimizeBtn" class="window-btn window-btn-min">–</button>
+          <button id="expandBtn" class="window-btn window-btn-max">+</button>
+          <button id="closeBtn" class="window-btn window-btn-close">×</button>
+        </div>
+      </div>
+    </div>
+    <div id="messages"></div>
+    <div id="inputArea">
+      <textarea id="input" placeholder="Ask about this article..."></textarea>
+      <button id="sendBtn">Send</button>
+    </div>
+  </aside>
+  <script src="https://eawosika.github.io/rialo-post-meta/post-meta.js" defer=""></script>
+<script src="/js/cms-loader.js"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+# Reactive Transactions: A Model for Native Automation on Rialo
+
+      Published on
+      April 20, 2026
+
+      Summary
+
+- 
+
+Current blockchain applications rely on a fragile tower of offchain automation to function. Blockchains are fundamentally synchronous systems: they execute logic only when a transaction is submitted. To run any form of asynchronous workflow (where transactions need to execute later, repeatedly, or i
+
+Current blockchain applications rely on a fragile tower of offchain automation to function. Blockchains are fundamentally synchronous systems: they execute logic only when a transaction is submitted. To run any form of asynchronous workflow (where transactions need to execute later, repeatedly, or in response to changing conditions), applications like lending protocols, AMMs, stablecoins, liquid staking systems, perpetual futures markets, and yield maximizers depend on bots, keepers, cron-based schedulers, indexers, and other orchestration logic because blockchains never provided a native way to run logic automatically. 
+
+This means any operation that needs to happen asynchronously or in response to future conditions must be orchestrated offchain, forcing developers to reconstruct an automation layer from scratch. Offchain automation also often requires exposing internal application state, monitoring endpoints, or granting third-party services privileged access, which introduces security and privacy risks that do not exist when logic runs natively onchain.
+
+Additionally, when every essential piece of logic is offloaded into a separate system, the entire stack becomes a collection of small monopolies. Each layer follows different incentives and optimizes for value extraction, which gradually erodes overall performance, reliability, and cost efficiency–a dynamic we described in our earlier post on [compound marginalization](https://www.rialo.io/posts/rialo-foundations-i-double-marginalization-in-crypto). In a healthy system, components reinforce one another and create value through supermodularity. In a fragmented system, the opposite happens because coordination becomes brittle and an afterthought.
+
+The reliance on offchain automation is one of the clearest expressions of this fragmentation. Because blockchains offer no native way to express conditional or time-based execution, builders are forced to assemble a patchwork of external systems to handle logic that should live onchain. These systems introduce new dependencies, new costs, and new points of failure. The result is a fundamental mismatch: the chain is expected to provide decentralization and reliability, yet the automation that maintains its most important applications operates in a parallel environment that cannot offer the same guarantees.
+
+If decentralized systems are going to function like modern infrastructure, they cannot depend on a patchwork of offchain automation. They need a way for the chain itself to decide when to execute logic, rather than relying on external schedulers or monitoring systems. They need a mechanism for expressing asynchronous workflows that react to changing conditions and external signals inside the consensus process itself. In other words, they need a native automation layer that brings the same guarantees currently reserved for synchronous, user-driven execution.
+
+Reactive transactions provide exactly this capability.
+
+## What are reactive transactions?
+
+Traditional blockchains operate on a simple model: a user signs a transaction, broadcasts it, and the chain executes it. Everything beyond that single-step flow must be orchestrated offchain. But the traditional execution model, where the chain runs logic only when a user submits a transaction, is too limited to express financial systems that depend on conditions unfolding over time. It also cannot naturally support workflows that must react to price movements, liquidations, oracle updates, external API responses, or other real-world inputs.
+
+Reactive transactions introduce a different model. Instead of requiring users or bots to push transactions into the chain whenever a condition becomes true, developers can define predicates that trigger transactions. A predicate is a logical expression that determines the conditions under which a transaction is eligible for execution. Each predicate is stored onchain and continuously evaluated during block execution; if the condition is met, the associated transaction triggers automatically.
+
+A predicate may reference a wide range of signals:
+
+- Onchain state, such as balances, collateral ratios, or AMM curve parameters 
+- State transitions produced by other programs during the same block
+- Events emitted by earlier transactions
+- Validator-attested oracle data that reflects real-time external signals
+- Time-based conditions, such as block height or timestamp checks
+- Results of earlier steps in a workflow
+
+When any of these inputs change, Rialo evaluates the predicate. If it becomes true, the associated logic runs. If not, the program simply waits until the proper condition arises.
+
+
+
+This model mirrors how real-world systems work. Most computation is not continuous; it runs only when specific conditions are met. Banks wait for settlement windows. Market makers wait for price updates. Payment processors wait for confirmations. Even ordinary software waits for user input, API responses, or timers. Real-world processes unfold through event-driven steps rather than a single continuous flow. Reactive transactions allow blockchain applications to adopt the same structure.
+
+The key distinction is that all waiting happens inside the validator process itself. A reactive workflow on Rialo does not rely on an external system watching for a condition to change. It does not depend on bots trying to submit a transaction at the right moment. It also does not inherit the timing issues or failure cases of offchain automation. Instead, it is driven by the blockchain’s execution flow, in which every validator evaluates the same conditions against the same state and reaches the same outcome.
+
+## How reactive execution works inside blocks
+
+Reactive transactions live inside Rialo’s block processing pipeline. The process is straightforward but powerful. Here’s a breakdown of the process:
+
+1. A user deploys a transaction that defines a predicate and the program that should run when the predicate becomes true. This registration step records the condition and associates it with executable logic.
+
+2. A block of ordinary user-submitted transactions executes in the validator runtime. These transactions may update balances, change collateral positions, modify AMM curves, create events, or interact with other programs.
+
+3. During block execution, any of these changes may affect the inputs to existing predicates. 
+
+4. At the end of a block’s execution, Rialo evaluates all predicates whose dependencies may have changed. The evaluation is deterministic, meaning every validator arrives at the same conclusions.
+
+5. Any predicate that becomes true is marked as triggered. Rialo automatically enqueues the associated transaction for execution.
+
+6. The triggered transaction runs either within the same block or in the subsequent blocks, depending on dependency ordering. The consensus protocol guarantees its execution.
+
+7. Once executed, its effects modify state and become visible to all nodes.
+
+This pipeline is executed by all validators and happens as part of the chain’s native execution logic; it does not depend on external infrastructure or separate automation services. This approach eliminates entire categories of complexity. It prevents race conditions, reduces reliance on bots, and guarantees consistent execution even under heavy network congestion. It also ensures execution occurs entirely within trusted onchain components, providing stronger safety guarantees than offchain automation. And because all logic runs inside a single trust model, application behavior is never split between the chain and an external automation layer.
+
+## Reactive workflows and long-running programs
+
+Reactive transactions, also known as conditional transactions, execute based on predefined conditions or predicates. This structure allows developers to create long-running programs that unfold over time rather than inside a single atomic transaction. A conditional transaction can also create additional conditional transactions, enabling workflows that span many blocks, react to intermediate results, and continue operating for hours or even days if necessary. This capability marks a clear departure from legacy smart contract models, which require that all logic be compressed into a single execution step, with no ability to suspend, wait, or resume based on future conditions.
+
+Consider a simple settlement workflow. A DeFi position may need to be updated when an external data source publishes a new price. It may then need to check collateral ratios, update internal accounting, schedule a delayed transfer, wait for a lock-up period, perform additional checks, and then settle funds. In most blockchain environments, this workflow would require a mixture of bots, schedulers, and manual transaction submissions. Rialo expresses it natively.
+
+A workflow can suspend after its first step, store a predicate that will awaken it when an oracle updates, and schedule another conditional step that will run after a delay. It can also wait for synchronous or asynchronous conditions and resume execution only when the necessary signals change. In this way, workflows can span long time periods without relying on any external system to progress them.
+
+Developers can build applications that execute only when specific events occur. They can model real-world processes that depend on multiple conditions that cannot be predicted in advance; build deferred operations that activate only under particular circumstances; and write retry loops that automatically respond to failures. All of these patterns are difficult or impossible to implement safely in traditional smart contracts, but Rialo makes them easy to build. 
+
+This model reflects a core limitation of smart contracts running on traditional blockchains. Most external automation infrastructure exists only because onchain programs cannot suspend execution, wait for future conditions, or react asynchronously to new signals. They have no built-in way to pause and resume a workflow across blocks. By introducing event-driven, asynchronous execution as a protocol-level primitive, Rialo removes the need to build and maintain separate automation networks.
+
+## What applications do reactive transactions enable? 
+
+Reactive transactions enable entirely new categories of onchain systems and greatly enhance existing ones. The examples below illustrate the breadth of what can be built.
+
+### Real-time risk management for lending markets
+
+Lending protocols are among the most vulnerable to delays in risk management. When collateral ratios fall, delays in liquidation can trigger cascading failures. Rialo’s reactive execution model streamlines risk management by automating key actions. Reactive transactions enable:
+
+- Automatic collateral checks within every block
+- Conditional partial liquidations based on real-time state
+- Delayed liquidations that evaluate whether markets are stable enough
+- Correlated triggers for multi-asset portfolios
+- Cross-protocol risk signals that allow coordinated responses
+- Chain-level circuit breakers that activate in extreme conditions
+
+Reactive transactions make risk management a native onchain primitive. Collateral checks, liquidations, portfolio triggers, and circuit breakers all run inside the chain rather than through offchain infrastructure. This shift makes it far easier to build financial systems that are more efficient, more secure, and more decentralized.
+
+### Autonomous perp markets
+
+Perpetual markets require continuous updates to funding rates and rapid liquidation responses. Traditionally, these functions depend on centralized or semi-centralized keepers. With reactive execution, perp markets can be run efficiently without depending on centralized keeper protocols. Reactive execution supports:
+
+- Instant liquidation logic
+- Funding rate updates driven by real-time oracle streams
+- Dynamic leverage limits tied to market volatility
+- Rolling settlement windows that unfold as workflows
+- Composite signals based on order book depth, volatility, and oracle prices
+- Automatic position adjustments in response to specific events
+
+With reactive execution, perpetual exchanges become fully autonomous. Market logic updates itself, reacts to new conditions, and maintains stability without offchain intervention. This is an example of what we call [“autonomous finance”](https://www.rialo.io/posts/building-the-future-of-autonomous-finance-on-rialo) at Rialo.
+
+### Adaptive AMMs and vaults
+
+Automated market makers benefit directly from reactive execution. AMMs often need to adjust parameters in response to changing liquidity, volatility, or external market conditions, but today these adjustments depend on offchain automation. Reactive execution allows these adjustments to be performed natively onchain, without relying on external automation.
+
+Examples include:
+
+- Fees that rise during volatility spikes and fall during calm periods
+- Concentration bands that adjust as liquidity conditions change
+- Automatic rebalancing strategies
+- Dynamic slippage or depth parameters
+- Withdrawal windows that open or close in response to liquidity conditions
+- Hedging workflows that trigger based on price, volatility, or spreads
+
+### Improved real-world asset (RWA) protocols
+
+Real-world asset systems require continuous operational upkeep. Coupon payments, NAV (Net Asset Value) updates, redemption flows, and default checks all depend on processes that historically run offchain. Reactive execution allows these tasks to be modeled directly onchain.
+
+Reactive transactions can express:
+
+- Periodic coupon distribution
+- NAV recalculations based on oracle or API data
+- Cash flow waterfalls
+- Repayment schedules
+- Default detection and escalation workflows
+- Settlement logic tied to macroeconomic indicators
+
+This allows Rialo to act as a complete financial backend for RWA systems. Core operations run deterministically inside consensus, eliminating the need for parallel offchain processes.
+
+### Advanced prediction markets
+
+Prediction markets depend heavily on correct, timely settlement, yet many today rely on offchain evaluators and manual processes. This creates latency and room for interference. Reactive transactions allow settlement logic to live natively within the chain.
+
+Reactive execution enables:
+
+- Instant settlement when verified data becomes available
+- Multi-source validation for higher integrity
+- Bracketed tournaments that progress automatically
+- Recurring markets that refresh themselves over time
+- Structured conditional payouts
+- Workflow-driven markets that generate subsequent markets
+
+The result is a fully onchain prediction engine that updates, settles, and evolves without external intervention.
+
+### Cross-protocol orchestration
+
+Reactive logic enables deeper composability across protocols. Instead of relying on offchain bots to coordinate behavior, protocols can communicate directly through onchain signals and predicates.
+
+Reactive execution supports:
+
+- Automated hedging strategies triggered by lending market conditions
+- Stablecoin issuers reacting to redemption flows in real time
+- Vaults adjusting liquidity based on AMM events
+- Treasury operations initiated by governance outcomes
+- Multi-protocol coordination during periods of market volatility
+
+This creates the foundation for true cross-protocol systems that operate natively onchain.
+
+### Hybrid onchain and offchain compute
+
+Many real-world workflows depend on external data sources. Rialo supports validator-attested API calls, allowing workflows to incorporate external signals directly into reactive onchain logic. This extends the reactive model beyond pure onchain state, enabling programs to wait for, respond to, and coordinate around real-world events.
+
+Reactive execution supports:
+
+- Workflows that wait for external confirmations
+- Composite signals derived from multiple APIs
+- Retries and fallback logic in response to external failures
+- Long-running processes that depend on both offchain and onchain state
+- Real-time oracle pipelines
+
+### Additional workflows enabled by reactive execution
+
+Reactive execution also unlocks a wide range of additional design patterns that do not neatly fit into a single protocol category. These workflows rely on conditions that evolve over time and benefit from having triggers and multi-step logic evaluated directly by validators rather than external automation systems.
+
+Reactive execution enables:
+
+- Time-based workflows: Scheduled DCA ([Dollar Cost Averaging](https://www.coinbase.com/learn/crypto-basics/what-is-dollar-cost-averaging-dca)) orders, periodic funding updates, vesting unlocks, and other operations that must run at predictable intervals without relying on cron systems or centralized schedulers.
+- Price-triggered workflows: Stop-loss and take-profit logic that reacts immediately to oracle movements, eliminating race conditions between bots and guaranteeing deterministic execution.
+- Multi-step execution pipelines: Sequences such as selling asset A, buying asset B, and depositing the result into a vault, all encoded as a single reactive workflow rather than as separate offchain-coordinated steps.
+- Portfolio automation: Automatic rebalancing, compounding, or rotation strategies that adjust positions in response to volatility, thresholds, or market structure changes.
+- Subscription and recurring payment workflows: Recurring payments, renewals, expirations, and access rules enforced through scheduled or condition-based triggers without external billing infrastructure.
+
+## How does reactive execution support Rialo’s broader design philosophy?
+
+Reactive execution is not an isolated feature but a fundamental part of Rialo’s architectural philosophy.
+
+### Relation to supermodularity
+
+“Supermodularity” describes systems in which the value of components increases when they are combined. Reactive transactions enhance supermodularity by unifying coordination, state management, and execution in a single environment. Applications no longer need to integrate external modules manually. Instead, they compose workflows natively–reducing fragmentation and increasing the system's overall value.
+
+### Relation to the double marginalization problem
+
+In the [compound marginalization post](https://www.rialo.io/posts/rialo-foundations-i-double-marginalization-in-crypto), we described how different middleware layers impose independent costs and distort incentives. Automation systems, indexers, schedulers, and keepers each extract value and create misalignment. Reactive transactions collapse these layers into the execution environment itself. The result is simpler, faster, more coherent, and more aligned.
+
+## Conclusion
+
+Reactive transactions fill a structural gap in blockchain design. They add a missing execution layer that allows chains to respond to events, not just process one-off user submissions. With this capability, applications can encode long-running workflows, adaptive market logic, conditional financial operations, and hybrid systems that blend onchain determinism with real-world signals–all executed directly inside consensus.
+
+By making reactive execution a native protocol primitive, Rialo removes the need for bots, keepers, cron systems, and other forms of external automation. Application logic remains within a single trust model rather than being split across centralized services or ad hoc infrastructure. This strengthens Rialo’s supermodular architecture, reduces compound marginalization, and eliminates entire categories of offchain coordination overhead.
+
+With reactive execution built into the foundation, decentralized systems begin to behave like real infrastructure: fast, reliable, and capable of coordinating complex operations without the fragile tower of external services that defines today’s stack. This is the path to blockchain applications that operate with the responsiveness, coherence, and robustness that modern systems require.

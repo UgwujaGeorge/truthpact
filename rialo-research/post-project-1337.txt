@@ -1,0 +1,119 @@
+# Project 1337: The Recap
+
+      Published on
+      December 19, 2025
+
+      Summary
+
+- 
+
+By now, it is fairly obvious to anyone that bringing Real World Assets (RWAs) onchain is the next move for taking onchain finance mainstream. RWA markets allow participants to price, trade, lend, and collateralize real-world assets–stocks, commodities, currencies, credit instruments–directly on bloc
+
+# We Streamed the World’s Market Data Onchain in Real Time. Here’s How. 
+
+By now, it is fairly obvious to anyone that bringing Real World Assets (RWAs) onchain is the next move for taking onchain finance mainstream. RWA markets allow participants to price, trade, lend, and collateralize real-world assets–stocks, commodities, currencies, credit instruments–directly on blockchain rails. These markets bridge the liquidity and composability of DeFi with the scale and stability of traditional finance. 
+
+However, building RWA markets onchain is harder than it looks. RWAs are financial instruments designed to track the price of an underlying asset (e.g., commodities like gold and stocks like AAPL). To keep these instruments accurate, onchain systems need continuous access to reliable external data.
+
+Oracles were designed to bridge that gap by feeding offchain data into smart contracts. In practice, however, existing oracle systems lack the precision and speed required to support high-performance synthetic markets.
+
+These approaches face challenges, including:
+
+- Latency: Real-world markets update prices in milliseconds–waiting the extra time for an “off-chain push” is costly and unpredictable. This mismatch breaks real-time trading and introduces stale data risk.
+- Trust: Many oracles rely on social reputation or multisig governance rather than cryptographic guarantees. This introduces additional trust assumptions and potential attack surfaces for high-value markets.
+
+These constraints make it difficult to create fast, compliant, and trust-minimized synthetic markets that can compete with traditional systems. We should note that oracles also introduce additional middleware costs and increase overhead for teams. This creates a high barrier to entry for anyone trying to build markets for RWAs (e.g., perp DEXes).
+
+Rialo’s architecture is designed to collapse that barrier. By combining verifiable data and computation primitives, Rialo can ingest, process, and publish real-world market data at sub-second latency–securely and deterministically. More importantly, Rialo’s infrastructure saves developers time and money because they don’t have to outsource the critical function of tracking (and updating) information about asset prices to external providers. 
+
+This post describes how we used that system to stream thousands of live stock tickers onchain in real time. The experiment is part of our efforts to show that onchain finance can operate at the same speed and efficiency as TradFi markets. 
+
+## Building an onchain Bloomberg terminal 
+
+Our goal was to build something similar to the Bloomberg Terminal: an interface capable of displaying thousands of live market prices that update continuously. The difference here is that every change is reflected onchain in real time. 
+
+That said, this was more than just trying to recreate Bloomberg’s frontend. We wanted to create a system capable of provisioning dense and precise market information in a blockchain environment. Achieving this required building out infrastructure to ingest, process, and publish high-frequency financial data with millisecond-level responsiveness. 
+
+We called the project Rialo 1337, but soon we found we could effectively handle all of the significant price data in the world that moves in real-time. Each ticker represented a real-world asset whose price was updated through Rialo’s oracle service and recorded onchain as a state change. To make this possible, we needed a data pipeline that could do the following:
+
+- Ingest live financial feeds from Data Providers
+- Pre-process and sanitize the data using professional-grade techniques
+- Batch thousands of updates efficiently and publish them onchain with sub-second latency
+
+In essence, the 1337 demo served as a full-stack integration test for Rialo’s oracle architecture. If it could handle the scale and speed of traditional market data, then any RWA, synthetic market, or perps DEX built on top of it would inherit those capabilities by default. 
+
+## An overview of the Rialo 1337 architecture 
+
+Rialo’s architecture proves that real-world market data can move through a decentralized system at real-time speeds. The 1337 demo tested every stage of that process, from live data ingestion to real-time onchain updates, under production-like conditions.
+
+The system consists of five major components:
+
+1. Data Source
+
+2. Pre-processing and Cryptographic Verification
+
+4. Onchain Logic (e.g., Perps Controller)
+
+5. Frontend
+
+Each part serves a distinct purpose in the system and combines with others to form a closed feedback loop that ensures onchain prices are aligned with real-world prices. We explore the individual components in more detail below:
+
+### 1. Data Sources
+
+The pipeline begins with live data feeds from providers such as [Massive](https://massive.com/) (fka Polygon). These feeds publish real-time updates for thousands of stocks and indices.
+
+For the 1337 experiment, Rialo partnered with Massive for its real-time WebSocket feed. Each message contained a symbol, price, and timestamp:
+
+{ "symbol": "AAPL", "price": 225.43, "timestamp": 1730840422333 }
+
+Rather than simply pushing the raw feed of the fast-moving websocket flow, Rialo was also capable of performing sophisticated pre-processing, ensuring that reports reflected meaningful market movements. The data and any processing was then batched and attested to before publication onchain.
+
+### 2. Sophisticated Pre-processing and Verification
+
+Rialo’s design allows us to query sources directly with strong cryptographic guarantees of integrity and confidentiality. This allows us to ingest real-world market data, perform computations on it, and output compact, derived values to the chain.
+
+Among the useful pre-processing Rialo can offer, the first is that we can filter noise. Market prices fluctuate constantly by small amounts due to micro-trades. A smoothing filter can be used (similar to an [exponential moving average](https://www.investopedia.com/terms/e/ema.asp)) to remove this “jitter,” so only meaningful changes are recorded.
+
+Secondly, we can measure momentum. Using the data, our pre-processing can estimate how fast and in what direction each asset is moving. This value is called alpha (α). Positive alpha means upward momentum; negative means downward.
+
+Third, we can measure short-term buy and sell pressure (the imbalance between bids and asks), which we call bias (b). Bias helps the system anticipate whether traders are leaning long or short on a particular asset.
+
+For a final example, we can also do Value-at-Risk tail estimation, which is only possible due to Rialo’s ability to process raw data (i.e., not just median values), as well as the cost-effective pre-processing. Consider a period of extreme price movement. A DeFi application wants to know “How much collateral should a loan require such that it remains solvent going forward with 99.9% probability?” Using “median-only” approaches, it would be impossible to reliably estimate the tail risk as would be required, and the position would be systematically under-capitalized. With access to the full range of data, users and applications can account for risk in the standard way used in finance, insurance, hydrology, etc. 
+
+This approach makes the data much more valuable. The raw feed is full of fast-moving signals amid faster-moving noise. Tools like quantization can compress that activity into a few meaningful signals that summarize what the market is actually doing.
+
+This design removes the need to trust people or multisig committees to verify price data. Instead, the correctness of each update is securely verified. Each update proof can be independently checked by anyone, without relying on Rialo or any external operator. In effect, every data point carries its own built-in proof that it is both authentic and untampered.
+
+### 3. Onchain Logic (Perps Controller Example)
+
+Consider a decentralized perpetual futures exchange built on Rialo. Data is piped through in real-time, optionally pre-processed, and fed to a Perps Controller Contract. Its job is to translate the feed into live onchain market dynamics. An example controller might do the following:
+
+- Update internal state with the new alpha (trend) and bias (pressure) values
+- Adjust synthetic prices and funding rates to reflect current market direction
+- Ensure long and short positions remain balanced
+
+In simplified pseudocode: 
+
+This ensures that the perpetual market price stays anchored to the real one. The controller doesn’t decide what the price is–that’s still based on the input and the market dynamics–but it constantly adjusts trading incentives so the market doesn’t drift away from reality. The result is a continuous feedback loop between real-world data and onchain market logic.
+
+### 4. Frontend
+
+The frontend visualizes everything in motion. It displays a grid of 1,337 tiles, each representing a stock ticker and updating roughly every 300 milliseconds. Each tile updates as the underlying market changes, showing how real-time data can be represented and updated onchain at high frequency. The demo confirmed that the system can handle continuous price movement at production speed.
+
+## Running the 1337 demo 
+
+Once the system was assembled, we ran the full pipeline under live market conditions. Rialo streamed thousands of active tickers from the Massive feed and published aggregated updates onchain. Each component operated continuously and in sync, from data ingestion to onchain writes. The test verified that the system could sustain real-time throughput, maintain consistency across thousands of tickers, and operate under production-level load.
+
+Rather than just publish raw financial data, Rialo instead computed a custom “market maker” style best-estimate of the price, accounting for factors like momentum. Each update was cryptographically signed, confirming that it was the data reported by Massive that underwent pre-processing. This setup removed the need to trust operators or committees and replaced it with direct cryptographic verification.
+
+The results were visualized at 1337.rialo.io, where each tile represented a live ticker updating several times per second. The interface provided a clear view of how high-frequency market data could be streamed and reflected onchain in real time.
+
+## Conclusion
+
+The Rialo 1337 experiment confirmed that onchain systems can operate at roughly the same update speed as traditional financial infrastructure by combining oracles, scheduling, and computation in a single attested pipeline. This design removes the need for additional middleware and offchain services and provides a foundation for real-time perps, RWA markets, and other synthetic financial systems that depend on live external data.
+
+Several applications are immediately possible. Perpetual DEXs can use alpha and bias values to adjust funding rates and keep onchain prices aligned with external markets. RWA protocols can issue asset-backed tokens with sub-second price updates, making them suitable as active collateral. Developers can access verified market data directly through Rialo’s oracle service instead of integrating multiple third-party APIs.
+
+In the longer term, continuous data feeds can support more complex systems. Markets can update continuously rather than in discrete batches, allowing automated strategies, treasuries, and DAOs to react to price changes in real time. Public attested alpha and bias data can also be used to build new financial metrics and products such as volatility indices, dynamic stablecoins, or predictive trading models.
+
+Rialo 1337 was a limited test, but it demonstrated that streaming real-world data to the blockchain in real time is achievable without relying on expensive middleware. With the right design, onchain systems can process external information as quickly and reliably as traditional networks.
