@@ -1,6 +1,6 @@
 # TruthPact
 
-TruthPact is a Base Sepolia AI escrow demo. The judge API uses Gemini to evaluate submitted work against the pact prompt, then optionally settles the pact from the configured judge wallet.
+TruthPact is a project built for rialo and this is a demo. The judge API uses Gemini to evaluate submitted work against the pact prompt, then optionally settles the pact from the configured judge wallet.
 
 ## Environment
 
